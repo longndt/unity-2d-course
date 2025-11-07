@@ -1,4 +1,4 @@
-# Unity Course - LongNDT
+# Unity 2D Course - LongNDT
 
 ## Course Overview
 
@@ -126,7 +126,7 @@ Each lesson follows a standardized structure designed for effective learning:
 lesson-topic/
 ├──  reference/          # Quick reference codes & checklists
 ├──  example/            # Working code examples
-├──  theory/             # Light documentation (single theoryX.md)
+├──  theory/             # Light documentation  
 ├──  lab/                # Hands-on playtest tasks
 └──  quiz/               # Interactive quiz to test understanding
 ```

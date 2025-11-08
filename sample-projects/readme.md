@@ -78,7 +78,7 @@ This directory contains **complete sample projects** for each lesson, providing 
 
 ### **Unity Version**
 - **Unity 6.2 (6000.2.10f1)** (recommended)
-- **Unity 2022.3 LTS** (minimum)
+- **Unity 2022.3 LTS** (minimum, for compatibility)
 - **2D (URP) Template** for all projects
 
 ### **Required Packages**

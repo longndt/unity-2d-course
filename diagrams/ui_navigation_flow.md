@@ -6,47 +6,35 @@ This diagram illustrates the flow of UI navigation and game state management in 
 
 ## UI Navigation Flow
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    MAIN MENU                                   │
-│                                                                 │
-│  • Start Game                                                  │
-│  • Settings                                                    │
-│  • Quit                                                        │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    GAME SCENE                                  │
-│                                                                 │
-│  • HUD (Health, Score, Timer)                                  │
-│  • Pause Menu (ESC key)                                        │
-│  • Game Over Screen                                            │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    SETTINGS MENU                               │
-│                                                                 │
-│  • Audio Settings                                              │
-│  • Graphics Settings                                           │
-│  • Controls Settings                                           │
-│  • Back to Main Menu                                           │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    MainMenu[Main Menu<br/>Start Game<br/>Settings<br/>Quit] --> GameScene[Game Scene<br/>HUD: Health, Score, Timer<br/>Pause Menu: ESC key<br/>Game Over Screen]
+    
+    MainMenu --> SettingsMenu[Settings Menu<br/>Audio Settings<br/>Graphics Settings<br/>Controls Settings<br/>Back to Main Menu]
+    
+    GameScene -->|Game Over| MainMenu
+    GameScene -->|Pause| SettingsMenu
+    SettingsMenu -->|Back| MainMenu
+    
+    style MainMenu fill:#e1f5ff
+    style GameScene fill:#e1ffe1
+    style SettingsMenu fill:#fff4e1
 ```
 
 ## UI State Management
 
 ### Game States
-```csharp
-public enum GameState
-{
-    MainMenu,
-    Playing,
-    Paused,
-    GameOver,
-    Settings
-}
+
+```mermaid
+stateDiagram-v2
+    [*] --> MainMenu: Start
+    MainMenu --> Playing: Start Game
+    MainMenu --> Settings: Open Settings
+    Playing --> Paused: Press ESC
+    Paused --> Playing: Resume
+    Playing --> GameOver: Player Dies
+    GameOver --> MainMenu: Return to Menu
+    Settings --> MainMenu: Back
 ```
 
 ### State Transitions

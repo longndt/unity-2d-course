@@ -6,30 +6,25 @@ This diagram illustrates Unity's physics update cycle and the order of execution
 
 ## Physics Update Cycle
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    PHYSICS UPDATE CYCLE                        │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    FIXED UPDATE PHASE                          │
-│                                                                 │
-│  1. FixedUpdate() - All MonoBehaviour scripts                  │
-│  2. Physics Simulation - Rigidbody, Collider updates          │
-│  3. OnTrigger* Events - Trigger detection                      │
-│  4. OnCollision* Events - Collision detection                  │
-│  5. Physics2D.Simulate() - Manual physics step                │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    LATE UPDATE PHASE                           │
-│                                                                 │
-│  1. LateUpdate() - Camera follow, UI updates                   │
-│  2. OnGUI() - Immediate mode GUI rendering                     │
-│  3. Render - Scene rendering                                   │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Start([Physics Update Cycle]) --> FixedUpdate[Fixed Update Phase]
+    
+    FixedUpdate --> Step1[1. FixedUpdate<br/>All MonoBehaviour scripts]
+    Step1 --> Step2[2. Physics Simulation<br/>Rigidbody, Collider updates]
+    Step2 --> Step3[3. OnTrigger* Events<br/>Trigger detection]
+    Step3 --> Step4[4. OnCollision* Events<br/>Collision detection]
+    Step4 --> Step5[5. Physics2D.Simulate<br/>Manual physics step]
+    
+    Step5 --> LateUpdate[Late Update Phase]
+    LateUpdate --> Late1[1. LateUpdate<br/>Camera follow, UI updates]
+    Late1 --> Late2[2. OnGUI<br/>Immediate mode GUI rendering]
+    Late2 --> Late3[3. Render<br/>Scene rendering]
+    
+    Late3 --> Start
+    
+    style FixedUpdate fill:#ffe1e1
+    style LateUpdate fill:#e1ffe1
 ```
 
 ## Key Concepts

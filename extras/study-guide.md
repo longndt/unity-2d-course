@@ -474,9 +474,9 @@ Input.GetKey(KeyCode.Space)
 Input.GetKeyDown(KeyCode.W)
 Input.GetAxis("Horizontal")
 
-// Physics movement
-rigidbody2D.velocity = new Vector2(speed, 0)
-rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse)
+// Physics movement (assuming rb is a cached Rigidbody2D reference)
+rb.velocity = new Vector2(speed, 0)
+rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse)
 transform.Translate(Vector2.right * speed * Time.deltaTime)
 ```
 

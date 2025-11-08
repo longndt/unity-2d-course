@@ -833,28 +833,36 @@ public class DevicePerformanceDetector : MonoBehaviour
     {
         Application.targetFrameRate = 30;
         QualitySettings.SetQualityLevel(0);
+        #if UNITY_ANDROID || UNITY_IOS
         Screen.sleepTimeout = SleepTimeout.SystemSetting;
+        #endif
     }
 
     void ApplyMediumEndSettings()
     {
         Application.targetFrameRate = 60;
         QualitySettings.SetQualityLevel(1);
+        #if UNITY_ANDROID || UNITY_IOS
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        #endif
     }
 
     void ApplyHighEndSettings()
     {
         Application.targetFrameRate = 60;
         QualitySettings.SetQualityLevel(2);
+        #if UNITY_ANDROID || UNITY_IOS
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        #endif
     }
 
     void ApplyVeryHighEndSettings()
     {
         Application.targetFrameRate = 120;
         QualitySettings.SetQualityLevel(3);
+        #if UNITY_ANDROID || UNITY_IOS
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        #endif
     }
 }
 ```

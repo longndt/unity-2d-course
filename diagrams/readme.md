@@ -4,6 +4,8 @@
 
 This directory contains visual diagrams and flowcharts that illustrate key concepts in Unity game development. These diagrams help visualize complex relationships, workflows, and architectural patterns specific to game development.
 
+**Note**: All diagrams use **Mermaid** format for clear, interactive visualizations. Mermaid diagrams are supported by most Markdown viewers including GitHub, GitLab, VS Code, and many documentation tools.
+
 ## 📚 Available Diagrams
 
 ### **[game_loop.md](./game_loop.md)**
@@ -70,7 +72,7 @@ UI system and menu navigation flow:
 Complete build process and deployment flow:
 - **Build Settings** - Platform configuration and scene management
 - **Asset Processing** - How assets are prepared for different platforms
-- **Platform-Specific Settings** - Android, iOS, Windows, macOS configurations
+- **Platform-Specific Settings** - Android, iOS, Windows, macOS, WebGL configurations
 - **Build Optimization** - Size reduction and performance optimization
 - **Deployment Process** - From build to distribution
 

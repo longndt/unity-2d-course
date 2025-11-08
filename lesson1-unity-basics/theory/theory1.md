@@ -422,7 +422,7 @@ Proceed to [Lesson 2: Sprites & Animation](../lesson2-sprites-animation/) to lea
 
 ## 💡 Key Takeaways
 
-### **From Web/Mobile to Game Development**
+### **From Web to Game Development**
 - **State Management**: From Redux/Context to Game State
 - **Event Handling**: From DOM events to Input System (basic in Lesson 1, advanced in Lesson 4)
 - **UI Systems**: From HTML/CSS to Unity UI (covered in Lesson 5)

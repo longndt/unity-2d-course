@@ -17,14 +17,22 @@ After completing this lesson, students will be able to:
 
 Unity uses the **Entity-Component-System (ECS)** pattern:
 
-```
-GameObject (Entity)
-├── Transform Component (Position, Rotation, Scale)
-├── Sprite Renderer Component (Visual representation)
-├── Animator Component (Animation control)
-├── Rigidbody2D Component (Physics)
-├── Collider2D Component (Collision detection)
-└── Custom Scripts (Game logic)
+```mermaid
+graph TD
+    GameObject[GameObject Entity] --> Transform[Transform Component<br/>Position, Rotation, Scale]
+    GameObject --> SpriteRenderer[Sprite Renderer Component<br/>Visual representation]
+    GameObject --> Animator[Animator Component<br/>Animation control]
+    GameObject --> Rigidbody[Rigidbody2D Component<br/>Physics]
+    GameObject --> Collider[Collider2D Component<br/>Collision detection]
+    GameObject --> Scripts[Custom Scripts<br/>Game logic]
+    
+    style GameObject fill:#e1f5ff
+    style Transform fill:#fff4e1
+    style SpriteRenderer fill:#e1ffe1
+    style Animator fill:#f0e1ff
+    style Rigidbody fill:#ffe1e1
+    style Collider fill:#ffe1e1
+    style Scripts fill:#e1f5ff
 ```
 
 ### Advantages of Component System
@@ -268,13 +276,21 @@ Jump → Fall: IsGrounded == false
 ### 5.2 Sorting and Layering
 
 #### Sorting Layer System:
-```
-Render Order (back to front):
-├── Background (-1000)
-├── Environment (0)
-├── Characters (100)
-├── Effects (200)
-└── UI (1000)
+
+```mermaid
+graph TD
+    RenderOrder[Render Order<br/>back to front] --> Background[Background<br/>-1000]
+    RenderOrder --> Environment[Environment<br/>0]
+    RenderOrder --> Characters[Characters<br/>100]
+    RenderOrder --> Effects[Effects<br/>200]
+    RenderOrder --> UI[UI<br/>1000]
+    
+    style RenderOrder fill:#e1f5ff
+    style Background fill:#fff4e1
+    style Environment fill:#e1ffe1
+    style Characters fill:#f0e1ff
+    style Effects fill:#ffe1e1
+    style UI fill:#e1f5ff
 ```
 
 #### Order in Layer:
@@ -325,11 +341,17 @@ sr.color = new Color(1f, 1f, 1f, 0.5f); // 50% alpha
 ### 6.2 Transform Hierarchy
 
 #### Parent-Child Relationships:
-```
-Player (Parent)
-├── Graphics (Child) - Sprites and animations
-├── Colliders (Child) - Physics collision
-└── Weapons (Child) - Attack hitboxes
+
+```mermaid
+graph TD
+    Player[Player Parent] --> Graphics[Graphics Child<br/>Sprites and animations]
+    Player --> Colliders[Colliders Child<br/>Physics collision]
+    Player --> Weapons[Weapons Child<br/>Attack hitboxes]
+    
+    style Player fill:#e1f5ff
+    style Graphics fill:#fff4e1
+    style Colliders fill:#e1ffe1
+    style Weapons fill:#f0e1ff
 ```
 
 #### Local vs World Space:
@@ -540,20 +562,39 @@ Animations/
 ### 9.3 State Machine Design Patterns
 
 #### Hierarchical State Machines:
-```
-Character State Machine:
-├── Grounded (Sub-state machine)
-│   ├── Idle
-│   ├── Walk
-│   └── Run
-├── Airborne (Sub-state machine)
-│   ├── Jump
-│   ├── Fall
-│   └── DoubleJump
-└── Combat (Sub-state machine)
-    ├── Attack1
-    ├── Attack2
-    └── Block
+
+```mermaid
+stateDiagram-v2
+    [*] --> CharacterStateMachine
+    
+    state CharacterStateMachine {
+        [*] --> Grounded
+        [*] --> Airborne
+        [*] --> Combat
+        
+        state Grounded {
+            [*] --> Idle
+            Idle --> Walk
+            Walk --> Run
+            Walk --> Idle
+            Run --> Walk
+        }
+        
+        state Airborne {
+            [*] --> Jump
+            Jump --> Fall
+            Fall --> DoubleJump
+        }
+        
+        state Combat {
+            [*] --> Attack1
+            Attack1 --> Attack2
+            Attack1 --> Block
+            Attack2 --> Block
+        }
+    }
+    
+    CharacterStateMachine --> [*]
 ```
 
 ---

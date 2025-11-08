@@ -6,57 +6,34 @@ This diagram illustrates Unity's build pipeline from source code to deployable g
 
 ## Build Pipeline Flow
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    SOURCE ASSETS                               │
-│                                                                 │
-│  • Scripts (.cs files)                                         │
-│  • Scenes (.unity files)                                       │
-│  • Textures (.png, .jpg)                                       │
-│  • Audio (.wav, .mp3)                                          │
-│  • Models (.fbx, .obj)                                         │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    ASSET PROCESSING                            │
-│                                                                 │
-│  1. Import Settings - Configure asset properties               │
-│  2. Compression - Reduce file sizes                            │
-│  3. Platform Conversion - Format for target platform           │
-│  4. Dependency Resolution - Link related assets                │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    COMPILATION                                 │
-│                                                                 │
-│  1. Script Compilation - C# to IL                              │
-│  2. Shader Compilation - Shader variants                       │
-│  3. IL2CPP (Mobile) - IL to native code                        │
-│  4. Optimization - Remove unused code                          │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    BUILD GENERATION                            │
-│                                                                 │
-│  1. Scene Bundling - Combine scenes                            │
-│  2. Asset Bundling - Group related assets                      │
-│  3. Platform Packaging - Create platform-specific build        │
-│  4. Compression - Final size optimization                      │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    DEPLOYMENT                                  │
-│                                                                 │
-│  • Windows: .exe file                                          │
-│  • Mac: .app bundle                                            │
-│  • Android: .apk file                                          │
-│  • iOS: .ipa file                                              │
-│  • WebGL: Web build                                            │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Source[Source Assets<br/>Scripts: .cs files<br/>Scenes: .unity files<br/>Textures: .png, .jpg<br/>Audio: .wav, .mp3<br/>Models: .fbx, .obj] --> Processing[Asset Processing]
+    
+    Processing --> P1[1. Import Settings<br/>Configure asset properties]
+    P1 --> P2[2. Compression<br/>Reduce file sizes]
+    P2 --> P3[3. Platform Conversion<br/>Format for target platform]
+    P3 --> P4[4. Dependency Resolution<br/>Link related assets]
+    
+    P4 --> Compilation[Compilation]
+    Compilation --> C1[1. Script Compilation<br/>C# to IL]
+    C1 --> C2[2. Shader Compilation<br/>Shader variants]
+    C2 --> C3[3. IL2CPP Mobile<br/>IL to native code]
+    C3 --> C4[4. Optimization<br/>Remove unused code]
+    
+    C4 --> Build[Build Generation]
+    Build --> B1[1. Scene Bundling<br/>Combine scenes]
+    B1 --> B2[2. Asset Bundling<br/>Group related assets]
+    B2 --> B3[3. Platform Packaging<br/>Create platform-specific build]
+    B3 --> B4[4. Compression<br/>Final size optimization]
+    
+    B4 --> Deployment[Deployment<br/>Windows: .exe file<br/>Mac: .app bundle<br/>Android: .apk file<br/>iOS: .ipa file<br/>WebGL: Web build]
+    
+    style Source fill:#e1f5ff
+    style Processing fill:#fff4e1
+    style Compilation fill:#ffe1e1
+    style Build fill:#e1ffe1
+    style Deployment fill:#f0e1ff
 ```
 
 ## Build Settings

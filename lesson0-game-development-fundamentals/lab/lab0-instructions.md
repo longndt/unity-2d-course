@@ -2,7 +2,7 @@
 
 ## 🎯 Learning Objectives
 
-- Understand the key differences between web/mobile and game development
+- Understand the key differences between web and game development
 - Learn basic game development concepts and terminology
 - Navigate Unity Editor for the first time
 - Create a simple bouncing ball game
@@ -11,7 +11,7 @@
 ## 🎮 Playtest Criteria
 
 **Complete when you can:**
-- [ ] Explain the key differences between web/mobile and game development
+- [ ] Explain the key differences between web and game development
 - [ ] Navigate Unity Editor confidently for game development
 - [ ] Create a simple bouncing ball game
 - [ ] Understand the game development pipeline

@@ -2,7 +2,7 @@
 
 ## Course Overview
 
-This course teaches 2D game development with Unity from the ground up. Perfect for beginners with web/mobile development experience who want to learn game development.
+This course teaches 2D game development with Unity from the ground up. Perfect for beginners with web development experience who want to learn game development.
 
 **Format**: Light theory, hands-on practice, and project-based learning
 
@@ -15,7 +15,7 @@ This course teaches 2D game development with Unity from the ground up. Perfect f
 - **Unity 6.2 (6000.2.10f1)**: Latest recommended version for this course
 - **IDE**: Visual Studio 2022, VS Code, or JetBrains Rider
 - **Git**: Version control (optional but recommended)
-- **Helpful but not required**: Web/mobile development experience
+- **Helpful but not required**: Web development experience
 - **Optional**: Basic understanding of physics and animation concepts
 
 ### **System Requirements**
@@ -58,7 +58,7 @@ Lesson 3 (Physics) → Lesson 4 (Advanced Input & Camera) → Lesson 5 (UI & Com
 ### **📖 Detailed Course Structure**
 
 #### **Lesson 0: Game Development Fundamentals & Mindset**
-- **🎯 Purpose**: Bridge from web/mobile to game development
+- **🎯 Purpose**: Bridge from web to game development
 - **📚 Topics**: Game design basics, player experience, Unity Editor overview
 - **🎮 Project**: Simple "Hello World" bouncing ball game
 - **🔗 Path**: `lesson0-game-development-fundamentals/`
@@ -214,6 +214,43 @@ Note: All lesson folders now use the standardized `example/` structure. Each les
 - **Performance Optimization**: `extras/performance-optimization.md` - Advanced optimization techniques
 - **Troubleshooting Guide**: `extras/troubleshooting-guide.md` - Common issues and solutions
 - **All Extras**: `extras/readme.md` - Complete resource overview
+
+### **🎓 Official Unity Learn Resources**
+
+We highly encourage you to explore **Unity Learn** ([learn.unity.com](https://learn.unity.com)) - Unity's official learning platform with comprehensive courses, tutorials, and projects. These resources complement this course and provide additional perspectives from Unity's official curriculum.
+
+#### **📚 Recommended Learning Path on Unity Learn**
+
+**Important**: We recommend following this learning sequence to build a solid foundation:
+
+1. **Foundation First**: Start with understanding Unity Editor fundamentals
+2. **2D Game Development**: Practice with 2D games to master core concepts
+3. **3D Game Development**: Progress to 3D after mastering 2D fundamentals
+
+#### **🔗 Essential Unity Learn Courses**
+
+##### **1. Understanding the Unity Editor**
+- **Course**: [Get Started with the Unity Editor](https://learn.unity.com/tutorial/get-started-with-the-unity-editor)
+- **Why**: Essential foundation for navigating Unity's interface, understanding the Editor workflow, and mastering core tools
+- **When**: Complete this before or alongside Lesson 0-1 of this course
+
+##### **2. 2D Beginner Game Development**
+- **Course**: [2D Game Development](https://learn.unity.com/course/2d-game-development)
+- **Why**: Hands-on practice building complete 2D games, reinforcing concepts from this course with Unity's official teaching approach
+- **When**: Complete after finishing Lesson 2-3 of this course, or as supplementary practice
+
+##### **3. 3D Beginner Game Development**
+- **Course**: [3D Game Development](https://learn.unity.com/course/3d-game-development) or [3D Beginner Game Projects](https://learn.unity.com/project/3d-beginner-game)
+- **Why**: Expand your skills to 3D game development after mastering 2D fundamentals
+- **When**: Complete after finishing this entire 2D course and feeling comfortable with 2D game development
+
+#### **💡 Why This Learning Sequence Matters**
+
+- **Foundation → 2D → 3D**: This progression ensures you understand Unity's core concepts before tackling more complex 3D systems
+- **2D First**: 2D games are simpler to visualize and debug, making it easier to understand game development fundamentals
+- **3D Later**: 3D adds complexity (lighting, cameras, 3D physics) that's easier to grasp after mastering 2D fundamentals
+
+**🎯 Tip**: Use Unity Learn courses as supplementary material alongside this course. They provide different perspectives and additional practice opportunities that will strengthen your understanding.
 
 ---
 

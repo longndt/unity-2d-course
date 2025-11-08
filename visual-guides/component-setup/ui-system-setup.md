@@ -16,10 +16,15 @@ After following this guide, you will be able to:
 
 ### 1.1 UI Component Hierarchy
 Unity's UI system consists of three main parts:
-```
-Canvas (Container)
-├── UI Elements (Buttons, Text, Images, etc.)
-└── Event System (Input handling)
+
+```mermaid
+graph TD
+    Canvas[Canvas Container] --> UIElements[UI Elements<br/>Buttons, Text, Images, etc.]
+    Canvas --> EventSystem[Event System<br/>Input handling]
+    
+    style Canvas fill:#e1f5ff
+    style UIElements fill:#fff4e1
+    style EventSystem fill:#ffe1e1
 ```
 
 ### 1.2 Key Concepts
@@ -287,13 +292,21 @@ public class MenuController : MonoBehaviour
 1. Select Canvas
 2. Right-click → **UI → Slider**
 3. Unity creates complete slider structure:
-```
-Slider
-├── Background
-├── Fill Area
-│   └── Fill
-└── Handle Slide Area
-    └── Handle
+```mermaid
+graph TD
+    Slider[Slider] --> Background[Background]
+    Slider --> FillArea[Fill Area]
+    Slider --> HandleArea[Handle Slide Area]
+    
+    FillArea --> Fill[Fill]
+    HandleArea --> Handle[Handle]
+    
+    style Slider fill:#e1f5ff
+    style Background fill:#fff4e1
+    style FillArea fill:#e1ffe1
+    style Fill fill:#e1ffe1
+    style HandleArea fill:#f0e1ff
+    style Handle fill:#f0e1ff
 ```
 
 ### 6.2 Slider Component Settings
@@ -544,17 +557,24 @@ Left/Right/Top/Bottom: 0
 
 ### 9.1 Main Menu Structure
 
-```
-Canvas
-├── MainMenuPanel
-│   ├── TitleText (TextMeshPro)
-│   ├── ButtonsGroup
-│   │   ├── StartButton
-│   │   ├── OptionsButton
-│   │   ├── CreditsButton
-│   │   └── QuitButton
-│   └── BackgroundImage
-└── EventSystem
+```mermaid
+graph TD
+    Canvas[Canvas] --> MainMenuPanel[MainMenuPanel]
+    Canvas --> EventSystem[EventSystem]
+    
+    MainMenuPanel --> TitleText[TitleText<br/>TextMeshPro]
+    MainMenuPanel --> ButtonsGroup[ButtonsGroup]
+    MainMenuPanel --> BackgroundImage[BackgroundImage]
+    
+    ButtonsGroup --> StartButton[StartButton]
+    ButtonsGroup --> OptionsButton[OptionsButton]
+    ButtonsGroup --> CreditsButton[CreditsButton]
+    ButtonsGroup --> QuitButton[QuitButton]
+    
+    style Canvas fill:#e1f5ff
+    style MainMenuPanel fill:#fff4e1
+    style EventSystem fill:#ffe1e1
+    style ButtonsGroup fill:#e1ffe1
 ```
 
 ### 9.2 Menu Layout Tips
@@ -635,18 +655,27 @@ public class MainMenuController : MonoBehaviour
 
 ### 10.1 HUD Structure
 
-```
-Canvas
-├── HUDPanel
-│   ├── TopBar
-│   │   ├── HealthBar (Slider)
-│   │   ├── ScoreText (TextMeshPro)
-│   │   └── TimerText (TextMeshPro)
-│   ├── BottomBar
-│   │   ├── AmmoText
-│   │   └── WeaponIcon
-│   └── PauseButton
-└── EventSystem
+```mermaid
+graph TD
+    Canvas[Canvas] --> HUDPanel[HUDPanel]
+    Canvas --> EventSystem[EventSystem]
+    
+    HUDPanel --> TopBar[TopBar]
+    HUDPanel --> BottomBar[BottomBar]
+    HUDPanel --> PauseButton[PauseButton]
+    
+    TopBar --> HealthBar[HealthBar<br/>Slider]
+    TopBar --> ScoreText[ScoreText<br/>TextMeshPro]
+    TopBar --> TimerText[TimerText<br/>TextMeshPro]
+    
+    BottomBar --> AmmoText[AmmoText]
+    BottomBar --> WeaponIcon[WeaponIcon]
+    
+    style Canvas fill:#e1f5ff
+    style HUDPanel fill:#fff4e1
+    style EventSystem fill:#ffe1e1
+    style TopBar fill:#e1ffe1
+    style BottomBar fill:#f0e1ff
 ```
 
 ### 10.2 HUD Manager Script

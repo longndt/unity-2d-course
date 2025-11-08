@@ -365,12 +365,23 @@ Settings.unity → Team Member C
 
 ### Simple Strategy (For Small Teams)
 
-```
-main (production-ready)
-  └── develop (integration)
-      ├── feature/player-controller
-      ├── feature/ui-system
-      └── bugfix/collision-bug
+```mermaid
+graph TD
+    Main[main<br/>production-ready] --> Develop[develop<br/>integration]
+    Develop --> Feature1["feature/player-controller"]
+    Develop --> Feature2["feature/ui-system"]
+    Develop --> Bugfix["bugfix/collision-bug"]
+    
+    Feature1 --> Develop
+    Feature2 --> Develop
+    Bugfix --> Develop
+    Develop --> Main
+    
+    style Main fill:#e1f5ff
+    style Develop fill:#fff4e1
+    style Feature1 fill:#e1ffe1
+    style Feature2 fill:#e1ffe1
+    style Bugfix fill:#ffe1e1
 ```
 
 #### **Workflow**
@@ -381,13 +392,26 @@ main (production-ready)
 
 ### Git Flow (For Larger Teams)
 
-```
-main (releases)
-  └── develop (integration)
-      ├── feature/player-controller
-      ├── feature/ui-system
-      ├── release/v1.0
-      └── hotfix/critical-bug
+```mermaid
+graph TD
+    Main[main<br/>releases] --> Develop[develop<br/>integration]
+    Develop --> Feature1["feature/player-controller"]
+    Develop --> Feature2["feature/ui-system"]
+    Develop --> Release["release/v1.0"]
+    Develop --> Hotfix["hotfix/critical-bug"]
+    
+    Feature1 --> Develop
+    Feature2 --> Develop
+    Release --> Main
+    Hotfix --> Main
+    Hotfix --> Develop
+    
+    style Main fill:#e1f5ff
+    style Develop fill:#fff4e1
+    style Feature1 fill:#e1ffe1
+    style Feature2 fill:#e1ffe1
+    style Release fill:#f0e1ff
+    style Hotfix fill:#ffe1e1
 ```
 
 ---

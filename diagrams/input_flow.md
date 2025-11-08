@@ -6,45 +6,34 @@ This diagram illustrates how input flows from devices through Unity's Input Syst
 
 ## Input Flow Diagram
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    INPUT DEVICES                               │
-│                                                                 │
-│  • Keyboard (WASD, Arrow Keys)                                 │
-│  • Mouse (Movement, Clicks)                                    │
-│  • Gamepad (Sticks, Buttons)                                   │
-│  • Touch (Mobile Devices)                                      │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    INPUT SYSTEM                                │
-│                                                                 │
-│  1. Input Actions - Define input mappings                      │
-│  2. Action Maps - Group related actions                        │
-│  3. Bindings - Device-specific input mappings                  │
-│  4. PlayerInput Component - Handle input events                │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    INPUT PROCESSING                            │
-│                                                                 │
-│  • Event-based: OnActionPerformed()                            │
-│  • Polling: Read current input state                           │
-│  • Buffering: Queue input for later processing                 │
-│  • Rebinding: Allow players to customize controls              │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    GAMEPLAY SYSTEMS                            │
-│                                                                 │
-│  • Player Movement - Character controller                      │
-│  • Camera Control - Mouse look, zoom                           │
-│  • Game Actions - Jump, attack, interact                       │
-│  • UI Navigation - Menu controls                               │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Devices[Input Devices<br/>Keyboard: WASD, Arrow Keys<br/>Mouse: Movement, Clicks<br/>Gamepad: Sticks, Buttons<br/>Touch: Mobile Devices] --> InputSystem[Input System]
+    
+    InputSystem --> Action1[1. Input Actions<br/>Define input mappings]
+    Action1 --> Action2[2. Action Maps<br/>Group related actions]
+    Action2 --> Action3[3. Bindings<br/>Device-specific input mappings]
+    Action3 --> Action4[4. PlayerInput Component<br/>Handle input events]
+    
+    Action4 --> Processing[Input Processing]
+    Processing --> EventBased[Event-based<br/>OnActionPerformed]
+    Processing --> Polling[Polling<br/>Read current input state]
+    Processing --> Buffering[Buffering<br/>Queue input for later]
+    Processing --> Rebinding[Rebinding<br/>Customize controls]
+    
+    EventBased --> Gameplay[Gameplay Systems]
+    Polling --> Gameplay
+    Buffering --> Gameplay
+    Rebinding --> Gameplay
+    
+    Gameplay --> Movement[Player Movement<br/>Character controller]
+    Gameplay --> Camera[Camera Control<br/>Mouse look, zoom]
+    Gameplay --> Actions[Game Actions<br/>Jump, attack, interact]
+    Gameplay --> UINav[UI Navigation<br/>Menu controls]
+    
+    style Devices fill:#e1f5ff
+    style InputSystem fill:#fff4e1
+    style Gameplay fill:#e1ffe1
 ```
 
 ## Input System Components

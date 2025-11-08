@@ -14,33 +14,37 @@ After reading this guide, you will be able to:
 
 ### Main Interface Components
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Menu Bar (File, Edit, Assets, GameObject, Component, etc.)     │
-├─────────────────────────────────────────────────────────────────┤
-│  Toolbar (Play, Pause, Step, Layers, Layout)                   │
-├─────────────────────────────────────────────────────────────────┤
-│  Scene View          │  Game View          │  Inspector        │
-│  (Level Editor)      │  (Player View)      │  (Properties)     │
-│                      │                     │                   │
-│  ┌─────────────────┐ │  ┌─────────────────┐ │  ┌─────────────┐ │
-│  │                 │ │  │                 │ │  │             │ │
-│  │  2D Scene       │ │  │  Game Preview   │ │  │ Component   │ │
-│  │  Editor         │ │  │  Window         │ │  │ Properties  │ │
-│  │                 │ │  │                 │ │  │             │ │
-│  └─────────────────┘ │  └─────────────────┘ │  └─────────────┘ │
-│                      │                     │                   │
-├──────────────────────┼─────────────────────┼───────────────────┤
-│  Hierarchy           │  Project             │  Console          │
-│  (Scene Objects)     │  (Asset Files)       │  (Debug Messages) │
-│  ┌─────────────────┐ │  ┌─────────────────┐ │  ┌─────────────┐ │
-│  │ Main Camera     │ │  │ Assets/         │ │  │ Messages    │ │
-│  │ Directional     │ │  │ ├── Scenes/     │ │  │ Warnings    │ │
-│  │ Light           │ │  │ ├── Scripts/    │ │  │ Errors      │ │
-│  │                 │ │  │ ├── Sprites/    │ │  │             │ │
-│  └─────────────────┘ │  │ └── Prefabs/    │ │  └─────────────┘ │
-│                      │  └─────────────────┘ │                   │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph Top["Unity Editor Interface"]
+        MenuBar[Menu Bar<br/>File, Edit, Assets, GameObject, Component, etc.]
+        Toolbar[Toolbar<br/>Play, Pause, Step, Layers, Layout]
+        
+        subgraph MainArea["Main Work Area"]
+            SceneView[Scene View<br/>Level Editor<br/>2D Scene Editor]
+            GameView[Game View<br/>Player View<br/>Game Preview Window]
+            Inspector[Inspector<br/>Properties<br/>Component Properties]
+        end
+        
+        subgraph Bottom["Bottom Panels"]
+            Hierarchy[Hierarchy<br/>Scene Objects<br/>Main Camera<br/>Directional Light]
+            Project["Project<br/>Asset Files<br/>Assets/<br/>Scenes/<br/>Scripts/<br/>Sprites/<br/>Prefabs/"]
+            Console[Console<br/>Debug Messages<br/>Messages<br/>Warnings<br/>Errors]
+        end
+    end
+    
+    MenuBar --> Toolbar
+    Toolbar --> MainArea
+    MainArea --> Bottom
+    
+    style MenuBar fill:#e1f5ff
+    style Toolbar fill:#fff4e1
+    style SceneView fill:#e1ffe1
+    style GameView fill:#f0e1ff
+    style Inspector fill:#ffe1e1
+    style Hierarchy fill:#e1f5ff
+    style Project fill:#fff4e1
+    style Console fill:#ffe1e1
 ```
 
 <img src="../images/unity-6.2/editor-layout-overview.png" alt="Editor Layout Overview" width="900" />

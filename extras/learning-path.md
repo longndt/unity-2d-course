@@ -2,106 +2,30 @@
 
 ## 🎯 Course Journey Overview
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    UNITY 2D GAME DEVELOPMENT                   │
-│                        Learning Path                           │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    🎮 LESSON 0: FUNDAMENTALS                   │
-│                   Game Development Mindset                     │
-│                                                                 │
-│  Web/Mobile → Game Development Transition                      │
-│  • Game Design Basics                                          │
-│  • Unity Editor Overview                                       │
-│  • First "Hello World" Game                                    │
-│                                                                 │
-│  📚 Reference → Example → Theory → Lab                        │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    🛠️ LESSON 1: UNITY BASICS                   │
-│                   Editor & Project Setup                       │
-│                                                                 │
-│  • GameObject/Component Model                                  │
-│  • MonoBehaviour Lifecycle                                     │
-│  • Scene Management                                            │
-│  • Basic Input System (keyboard)                               │
-│  • Simple Camera Follow                                        │
-│  • Debugging Tools                                             │
-│                                                                 │
-│  📚 Reference → Example → Theory → Lab                        │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    🎨 LESSON 2: SPRITES & ANIMATION            │
-│                   Visual Game Elements                         │
-│                                                                 │
-│  • Sprite Import Pipeline                                      │
-│  • Animator Controller                                         │
-│  • Animation Events                                            │
-│  • Character Animation System                                  │
-│                                                                 │
-│  📚 Reference → Example → Theory → Lab                        │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    ⚡ LESSON 3: PHYSICS & COLLISIONS            │
-│                   Game Mechanics                               │
-│                                                                 │
-│  • 2D Physics System                                           │
-│  • Collision Detection                                         │
-│  • Physics Materials                                           │
-│  • Raycasting & Triggers                                       │
-│                                                                 │
-│  📚 Reference → Example → Theory → Lab                        │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│          🎮 LESSON 4: ADVANCED INPUT & CAMERA SYSTEMS           │
-│                   Professional Player Interaction               │
-│                                                                 │
-│  • Advanced Input System (Actions, PlayerInput)                │
-│  • Input Handling Patterns & Best Practices                     │
-│  • Professional Camera Systems (Cinemachine)                   │
-│  • Camera Bounds & Smoothing                                   │
-│  • Input Rebinding & UI Focus                                  │
-│                                                                 │
-│  📚 Reference → Example → Theory → Lab                        │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    🎯 LESSON 5: UI & COMPLETE GAME             │
-│                   Full Game Development                        │
-│                                                                 │
-│  • Complete UI Systems (Canvas, Layout Groups)                 │
-│  • Menus, HUD, Health Bars                                     │
-│  • Game State Management & Pause System                        │
-│  • Save/Load Systems                                           │
-│  • Build Pipeline & Deployment                                 │
-│                                                                 │
-│  📚 Reference → Example → Theory → Lab                        │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    🏆 FINAL PROJECT                            │
-│                   Portfolio Development                        │
-│                                                                 │
-│  • Complete 2D Game                                            │
-│  • Portfolio Documentation                                     │
-│  • Performance Optimization                                    │
-│  • Build & Deployment                                          │
-│                                                                 │
-│  🎯 Showcase your skills!                                      │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Start([UNITY 2D GAME DEVELOPMENT<br/>Learning Path]) --> L0["🎮 LESSON 0: FUNDAMENTALS<br/>Game Development Mindset<br/>Web -> Game Development Transition<br/>Game Design Basics<br/>Unity Editor Overview<br/>First Hello World Game<br/>📚 Reference -> Example -> Theory -> Lab"]
+    
+    L0 --> L1["🛠️ LESSON 1: UNITY BASICS<br/>Editor & Project Setup<br/>GameObject/Component Model<br/>MonoBehaviour Lifecycle<br/>Scene Management<br/>Basic Input System keyboard<br/>Simple Camera Follow<br/>Debugging Tools<br/>📚 Reference -> Example -> Theory -> Lab"]
+    
+    L1 --> L2["🎨 LESSON 2: SPRITES & ANIMATION<br/>Visual Game Elements<br/>Sprite Import Pipeline<br/>Animator Controller<br/>Animation Events<br/>Character Animation System<br/>📚 Reference -> Example -> Theory -> Lab"]
+    
+    L2 --> L3["⚡ LESSON 3: PHYSICS & COLLISIONS<br/>Game Mechanics<br/>2D Physics System<br/>Collision Detection<br/>Physics Materials<br/>Raycasting & Triggers<br/>📚 Reference -> Example -> Theory -> Lab"]
+    
+    L3 --> L4["🎮 LESSON 4: ADVANCED INPUT & CAMERA<br/>Professional Player Interaction<br/>Advanced Input System Actions, PlayerInput<br/>Input Handling Patterns & Best Practices<br/>Professional Camera Systems Cinemachine<br/>Camera Bounds & Smoothing<br/>Input Rebinding & UI Focus<br/>📚 Reference -> Example -> Theory -> Lab"]
+    
+    L4 --> L5["🎯 LESSON 5: UI & COMPLETE GAME<br/>Full Game Development<br/>Complete UI Systems Canvas, Layout Groups<br/>Menus, HUD, Health Bars<br/>Game State Management & Pause System<br/>Save/Load Systems<br/>Build Pipeline & Deployment<br/>📚 Reference -> Example -> Theory -> Lab"]
+    
+    L5 --> Final["🏆 FINAL PROJECT<br/>Portfolio Development<br/>Complete 2D Game<br/>Portfolio Documentation<br/>Performance Optimization<br/>Build & Deployment<br/>🎯 Showcase your skills!"]
+    
+    style Start fill:#e1f5ff
+    style L0 fill:#fff4e1
+    style L1 fill:#e1ffe1
+    style L2 fill:#f0e1ff
+    style L3 fill:#ffe1e1
+    style L4 fill:#fff4e1
+    style L5 fill:#e1f5ff
+    style Final fill:#f0e1ff
 ```
 
 ---

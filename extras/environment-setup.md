@@ -323,12 +323,12 @@ Unity Hub is the central tool for managing Unity installations and projects.
 
 - ✅ **Microsoft Visual Studio Community 2022** (Windows only)
 - ✅ **2D Sprite Package** (for 2D game development)
-- ✅ **Android Build Support** (for mobile publishing)
 - ✅ **Documentation** (offline help)
 - ✅ **Unity Input System** (new input system)
 
 **Optional Modules:**
 
+- 📱 **Android Build Support** (for mobile game publishing)
 - 📱 **iOS Build Support** (Mac only, for iPhone games)
 - 🌐 **WebGL Build Support** (for browser games)
 - 🎮 **Windows Build Support** (Mac only, for cross-platform)
@@ -508,7 +508,7 @@ public class Test2DScript : MonoBehaviour
 **Solutions:**
 
 1. Ensure Rosetta 2 is installed
-2. Use Unity 2022.3 LTS or newer for better M1 support
+2. Use Unity 6.2 (6000.2.10f1) or newer for better M1 support
 3. Close other applications to free memory
 4. Check Activity Monitor for Unity processes
 

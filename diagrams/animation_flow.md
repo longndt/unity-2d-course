@@ -6,260 +6,62 @@ This diagram illustrates Unity's animation system workflow, showing how Animator
 
 ## 📊 Animation System Flow
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Animation System                         │
-└─────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────┐
-│                Sprite Import Pipeline                       │
-│                                                             │
-│  Sprite Sheet ──────────────────────────────────────────┐   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  Import Settings ────────────────────────────────────┐  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  • Texture Type: Sprite (2D and UI)                │  │   │
-│  • Pixels Per Unit: 16-100                         │  │   │
-│  • Sprite Mode: Multiple                           │  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  Sprite Editor ──────────────────────────────────┐  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  • Slice Type: Automatic/Grid/Manual           │  │  │   │
-│  • Pivot: Center/Bottom/Custom                 │  │  │   │
-│  • Mesh Type: Tight/Full Rect                  │  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  Individual Sprites ──────────────────────────┐  │  │  │   │
-│    │                                       │  │  │  │   │
-│    ▼                                       │  │  │  │   │
-│  • Idle_1, Idle_2, Idle_3                  │  │  │  │   │
-│  • Walk_1, Walk_2, Walk_3                  │  │  │  │   │
-│  • Jump_1, Jump_2, Jump_3                  │  │  │  │   │
-│  • Attack_1, Attack_2, Attack_3            │  │  │  │   │
-│    │                                       │  │  │  │   │
-│    ▼                                       │  │  │  │   │
-│  └─────────────────────────────────────────┘  │  │  │   │
-│                                               │  │  │   │
-│  └─────────────────────────────────────────────┘  │  │   │
-│                                                   │  │   │
-│  └─────────────────────────────────────────────────┘  │   │
-│                                                       │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────┐
-│                Animator Controller Setup                    │
-│                                                             │
-│  Animator Controller ───────────────────────────────────┐   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  Parameters ─────────────────────────────────────────┐  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  • Speed (Float)                                   │  │   │
-│  • IsGrounded (Bool)                               │  │   │
-│  • IsJumping (Bool)                                │  │   │
-│  • Attack (Trigger)                                │  │   │
-│  • Direction (Float)                               │  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  States ─────────────────────────────────────────┐  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  • Idle State                                  │  │  │   │
-│  • Walk State                                  │  │  │   │
-│  • Run State                                   │  │  │   │
-│  • Jump State                                  │  │  │   │
-│  • Attack State                                │  │  │   │
-│  • Death State                                 │  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  Transitions ────────────────────────────────┐  │  │  │   │
-│    │                                       │  │  │  │   │
-│    ▼                                       │  │  │  │   │
-│  • Idle → Walk (Speed > 0.1)               │  │  │  │   │
-│  • Walk → Run (Speed > 2.0)                │  │  │  │   │
-│  • Any → Jump (Jump pressed)                │  │  │  │   │
-│  • Jump → Idle (IsGrounded = true)          │  │  │  │   │
-│  • Any → Attack (Attack triggered)          │  │  │  │   │
-│    │                                       │  │  │  │   │
-│    ▼                                       │  │  │  │   │
-│  └─────────────────────────────────────────┘  │  │  │   │
-│                                               │  │  │   │
-│  └─────────────────────────────────────────────┘  │  │   │
-│                                                   │  │   │
-│  └─────────────────────────────────────────────────┘  │   │
-│                                                       │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────┐
-│                Animation Event Flow                         │
-│                                                             │
-│  Animation Clip ────────────────────────────────────────┐   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  Timeline ───────────────────────────────────────────┐  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  ┌─────────────────────────────────────────────┐   │  │   │
-│  │  Frame 0: Idle_1                            │   │  │   │
-│  │  Frame 5: Idle_2                            │   │  │   │
-│  │  Frame 10: Idle_3                           │   │  │   │
-│  │  Frame 15: Idle_1 (Loop)                    │   │  │   │
-│  └─────────────────────────────────────────────┘   │  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  Animation Events ──────────────────────────────┐  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  • OnFootstep (Frame 5, 15)                    │  │  │   │
-│  • OnAttackHit (Frame 8)                       │  │  │   │
-│  • OnAnimationComplete (Frame 15)              │  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  Script Methods ─────────────────────────────┐  │  │  │   │
-│    │                                       │  │  │  │   │
-│    ▼                                       │  │  │  │   │
-│  public void OnFootstep() {                │  │  │  │   │
-│      // Play footstep sound                │  │  │  │   │
-│  }                                          │  │  │  │   │
-│                                             │  │  │  │   │
-│  public void OnAttackHit() {                │  │  │  │   │
-│      // Deal damage to enemies              │  │  │  │   │
-│  }                                          │  │  │  │   │
-│    │                                       │  │  │  │   │
-│    ▼                                       │  │  │  │   │
-│  └─────────────────────────────────────────┘  │  │  │   │
-│                                               │  │  │   │
-│  └─────────────────────────────────────────────┘  │  │   │
-│                                                   │  │   │
-│  └─────────────────────────────────────────────────┘  │   │
-│                                                       │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────┐
-│                Runtime Animation Flow                       │
-│                                                             │
-│  Script Updates ────────────────────────────────────────┐   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  animator.SetFloat("Speed", velocity.magnitude);       │   │
-│  animator.SetBool("IsGrounded", isGrounded);           │   │
-│  animator.SetTrigger("Attack");                        │   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  Animator Controller ────────────────────────────────┐  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  • Check Parameters                                │  │   │
-│  • Evaluate Transitions                            │  │   │
-│  • Change States                                   │  │   │
-│  • Play Animation Clips                            │  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  SpriteRenderer Updates ─────────────────────────┐  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  • Change Sprite                                │  │  │   │
-│  • Update Sorting Order                         │  │  │   │
-│  • Handle Flipping                              │  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  Animation Events Triggered ─────────────────┐  │  │  │   │
-│    │                                       │  │  │  │   │
-│    ▼                                       │  │  │  │   │
-│  • OnFootstep() called                     │  │  │  │   │
-│  • OnAttackHit() called                    │  │  │  │   │
-│  • OnAnimationComplete() called            │  │  │  │   │
-│    │                                       │  │  │  │   │
-│    ▼                                       │  │  │  │   │
-│  └─────────────────────────────────────────┘  │  │  │   │
-│                                               │  │  │   │
-│  └─────────────────────────────────────────────┘  │  │   │
-│                                                   │  │   │
-│  └─────────────────────────────────────────────────┘  │   │
-│                                                       │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Start([Animation System]) --> Import[Sprite Import Pipeline]
+    
+    Import --> SpriteSheet[Sprite Sheet]
+    SpriteSheet --> ImportSettings[Import Settings<br/>Texture Type: Sprite<br/>Pixels Per Unit: 16-100<br/>Sprite Mode: Multiple]
+    ImportSettings --> SpriteEditor[Sprite Editor<br/>Slice Type: Auto/Grid/Manual<br/>Pivot: Center/Bottom/Custom<br/>Mesh Type: Tight/Full Rect]
+    SpriteEditor --> Sprites[Individual Sprites<br/>Idle_1, Idle_2, Idle_3<br/>Walk_1, Walk_2, Walk_3<br/>Jump_1, Jump_2, Jump_3<br/>Attack_1, Attack_2, Attack_3]
+    
+    Sprites --> Controller[Animator Controller Setup]
+    Controller --> Parameters[Parameters<br/>Speed: Float<br/>IsGrounded: Bool<br/>IsJumping: Bool<br/>Attack: Trigger<br/>Direction: Float]
+    Parameters --> States[States<br/>Idle State<br/>Walk State<br/>Run State<br/>Jump State<br/>Attack State<br/>Death State]
+    States --> Transitions["Transitions<br/>Idle -> Walk: Speed > 0.1<br/>Walk -> Run: Speed > 2.0<br/>Any -> Jump: Jump pressed<br/>Jump -> Idle: IsGrounded = true<br/>Any -> Attack: Attack triggered"]
+    
+    Transitions --> Events[Animation Event Flow]
+    Events --> Timeline[Timeline<br/>Frame 0: Idle_1<br/>Frame 5: Idle_2<br/>Frame 10: Idle_3<br/>Frame 15: Idle_1 Loop]
+    Timeline --> AnimationEvents[Animation Events<br/>OnFootstep: Frame 5, 15<br/>OnAttackHit: Frame 8<br/>OnAnimationComplete: Frame 15]
+    AnimationEvents --> ScriptMethods[Script Methods<br/>OnFootstep: Play sound<br/>OnAttackHit: Deal damage]
+    
+    ScriptMethods --> Runtime[Runtime Animation Flow]
+    Runtime --> ScriptUpdates[Script Updates<br/>animator.SetFloat Speed<br/>animator.SetBool IsGrounded<br/>animator.SetTrigger Attack]
+    ScriptUpdates --> AnimatorController[Animator Controller<br/>Check Parameters<br/>Evaluate Transitions<br/>Change States<br/>Play Animation Clips]
+    AnimatorController --> SpriteRenderer[SpriteRenderer Updates<br/>Change Sprite<br/>Update Sorting Order<br/>Handle Flipping]
+    SpriteRenderer --> EventsTriggered[Animation Events Triggered<br/>OnFootstep called<br/>OnAttackHit called<br/>OnAnimationComplete called]
+    
+    style Import fill:#e1f5ff
+    style Controller fill:#fff4e1
+    style Runtime fill:#e1ffe1
 ```
 
 ## 🎮 State Machine Patterns
 
 ### **Basic State Machine**
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    State Machine                            │
-│                                                             │
-│  Idle State ────────────────────────────────────────────┐   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  • Play Idle Animation                                 │   │
-│  • Check for Input                                     │   │
-│  • Transition to Walk if Speed > 0.1                   │   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  Walk State ─────────────────────────────────────────┐  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  • Play Walk Animation                             │  │   │
-│  • Check for Input                                 │  │   │
-│  • Transition to Run if Speed > 2.0                │  │   │
-│  • Transition to Idle if Speed < 0.1               │  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  Run State ─────────────────────────────────────┐  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  • Play Run Animation                          │  │  │   │
-│  • Check for Input                             │  │  │   │
-│  • Transition to Walk if Speed < 2.0           │  │  │   │
-│  • Transition to Idle if Speed < 0.1           │  │  │   │
-│    │                                           │  │  │   │
-│    ▼                                           │  │  │   │
-│  └─────────────────────────────────────────────┘  │  │   │
-│                                                   │  │   │
-│  └─────────────────────────────────────────────────┘  │   │
-│                                                       │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle: Start
+    Idle --> Walk: Speed > 0.1
+    Walk --> Run: Speed > 2.0
+    Walk --> Idle: Speed < 0.1
+    Run --> Walk: Speed < 2.0
+    Run --> Idle: Speed < 0.1
+    Idle --> [*]: Exit
 ```
 
 ### **Jump State Machine**
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Jump State Machine                       │
-│                                                             │
-│  Any State ─────────────────────────────────────────────┐   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  • Check Jump Input                                    │   │
-│  • Check IsGrounded                                    │   │
-│  • Transition to Jump if conditions met                │   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  Jump State ─────────────────────────────────────────┐  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  • Play Jump Animation                             │  │   │
-│  • Apply Jump Force                                │  │   │
-│  • Check for Landing                               │  │   │
-│  • Transition to Idle when IsGrounded = true       │  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  └─────────────────────────────────────────────────┘  │   │
-│                                                       │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle: Start
+    Idle --> Jump: Jump Input && IsGrounded
+    Walk --> Jump: Jump Input && IsGrounded
+    Run --> Jump: Jump Input && IsGrounded
+    Jump --> Idle: IsGrounded = true
+    Jump --> Jump: In Air
+    Idle --> [*]: Exit
 ```
 
 ## 🔧 Common Animation Patterns

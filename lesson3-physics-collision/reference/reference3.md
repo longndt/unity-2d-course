@@ -117,9 +117,15 @@ bool IsGrounded() {
 
 ### Basic Jump
 ```csharp
+private Rigidbody2D rb;
+
+void Start() {
+    rb = GetComponent<Rigidbody2D>();
+}
+
 void Jump() {
     if (IsGrounded()) {
-        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce);
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
 }
 ```
@@ -127,8 +133,8 @@ void Jump() {
 ### Variable Jump Height
 ```csharp
 void Update() {
-    if (Input.GetButton("Jump") && rigidbody2D.velocity.y > 0) {
-        rigidbody2D.velocity += Vector2.up * jumpForce * Time.deltaTime;
+    if (Input.GetButton("Jump") && rb.velocity.y > 0) {
+        rb.velocity += Vector2.up * jumpForce * Time.deltaTime;
     }
 }
 ```

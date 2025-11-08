@@ -6,90 +6,41 @@ This diagram illustrates Unity's core execution model, showing how GameObjects a
 
 ## 📊 Game Loop Flow
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Unity Game Loop                          │
-└─────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Frame Start                              │
-│  • Input Processing                                         │
-│  • Physics Simulation (FixedUpdate)                        │
-│  • Game Logic (Update)                                     │
-│  • Rendering (LateUpdate)                                  │
-│  • UI Rendering                                            │
-└─────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────┐
-│                MonoBehaviour Lifecycle                     │
-│                                                             │
-│  Awake() ──────────────────────────────────────────────┐   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  OnEnable() ────────────────────────────────────────┐  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  Start() ────────────────────────────────────────┐ │  │   │
-│    │                                           │ │  │   │
-│    ▼                                           │ │  │   │
-│  ┌─────────────────────────────────────────┐   │ │  │   │
-│  │            Frame Loop                   │   │ │  │   │
-│  │                                         │   │ │  │   │
-│  │  FixedUpdate() ──────────────────────┐  │   │ │  │   │
-│  │    │                                 │  │   │ │  │   │
-│  │    ▼                                 │  │   │ │  │   │
-│  │  Physics Calculations                │  │   │ │  │   │
-│  │  Rigidbody Movement                  │  │   │ │  │   │
-│  │  Collision Detection                 │  │   │ │  │   │
-│  │                                     │  │   │ │  │   │
-│  │  Update() ────────────────────────┐  │  │   │ │  │   │
-│  │    │                             │  │  │   │ │  │   │
-│  │    ▼                             │  │  │   │ │  │   │
-│  │  Input Handling                   │  │  │   │ │  │   │
-│  │  Game Logic                       │  │  │   │ │  │   │
-│  │  UI Updates                       │  │  │   │ │  │   │
-│  │                                   │  │  │   │ │  │   │
-│  │  LateUpdate() ──────────────────┐  │  │  │   │ │  │   │
-│  │    │                           │  │  │  │   │ │  │   │
-│  │    ▼                           │  │  │  │   │ │  │   │
-│  │  Camera Follow                  │  │  │  │   │ │  │   │
-│  │  UI Positioning                 │  │  │  │   │ │  │   │
-│  │  Post-Processing                │  │  │  │   │ │  │   │
-│  │                                 │  │  │  │   │ │  │   │
-│  │  OnGUI() ─────────────────────┐ │  │  │  │   │ │  │   │
-│  │    │                         │ │  │  │  │   │ │  │   │
-│  │    ▼                         │ │  │  │  │   │ │  │   │
-│  │  Debug UI                    │ │  │  │  │   │ │  │   │
-│  │  Editor Tools                │ │  │  │  │   │ │  │   │
-│  │                              │ │  │  │  │   │ │  │   │
-│  └──────────────────────────────┘ │  │  │  │   │ │  │   │
-│                                   │  │  │  │   │ │  │   │
-│  └─────────────────────────────────┘  │  │  │   │ │  │   │
-│                                       │  │  │   │ │  │   │
-│  └─────────────────────────────────────┘  │  │   │ │  │   │
-│                                           │  │   │ │  │   │
-│  └─────────────────────────────────────────┘  │   │ │  │   │
-│                                               │   │ │  │   │
-│  └─────────────────────────────────────────────┘   │ │  │   │
-│                                                   │ │  │   │
-│  └─────────────────────────────────────────────────┘ │  │   │
-│                                                     │  │   │
-│  └───────────────────────────────────────────────────┘  │   │
-│                                                         │   │
-│  └───────────────────────────────────────────────────────┘   │
-│                                                             │
-│  └─────────────────────────────────────────────────────────┘
-│
-└─────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Frame End                                │
-│  • Rendering Complete                                       │
-│  • Wait for Next Frame                                      │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Start([Unity Game Loop Starts]) --> FrameStart[Frame Start]
+    
+    FrameStart --> Input[Input Processing]
+    FrameStart --> Physics[Physics Simulation<br/>FixedUpdate]
+    FrameStart --> Logic[Game Logic<br/>Update]
+    FrameStart --> Rendering[Rendering<br/>LateUpdate]
+    FrameStart --> UI[UI Rendering]
+    
+    Input --> Lifecycle[MonoBehaviour Lifecycle]
+    Physics --> Lifecycle
+    Logic --> Lifecycle
+    Rendering --> Lifecycle
+    UI --> Lifecycle
+    
+    Lifecycle --> Awake[Awake<br/>Component initialization]
+    Awake --> OnEnable[OnEnable<br/>Event subscriptions]
+    OnEnable --> Start[Start<br/>Initial setup]
+    Start --> FrameLoop[Frame Loop]
+    
+    FrameLoop --> FixedUpdate[FixedUpdate<br/>Physics calculations<br/>Rigidbody movement<br/>Collision detection]
+    FixedUpdate --> Update[Update<br/>Input handling<br/>Game logic<br/>UI updates]
+    Update --> LateUpdate[LateUpdate<br/>Camera follow<br/>UI positioning<br/>Post-processing]
+    LateUpdate --> OnGUI[OnGUI<br/>Debug UI<br/>Editor tools]
+    OnGUI --> FrameLoop
+    
+    FrameLoop --> FrameEnd[Frame End<br/>Rendering Complete<br/>Wait for Next Frame]
+    FrameEnd --> FrameStart
+    
+    style Start fill:#e1f5ff
+    style FrameLoop fill:#fff4e1
+    style FixedUpdate fill:#ffe1e1
+    style Update fill:#e1ffe1
+    style LateUpdate fill:#f0e1ff
 ```
 
 ## 🔄 Execution Order Details
@@ -137,29 +88,26 @@ This diagram illustrates Unity's core execution model, showing how GameObjects a
 ## ⚡ Performance Considerations
 
 ### **Update vs FixedUpdate**
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Update Timing                            │
-│                                                             │
-│  Update() ──────────────────────────────────────────────┐   │
-│    │                                                   │   │
-│    ▼                                                   │   │
-│  • Input Handling (every frame)                        │   │
-│  • Game Logic (every frame)                            │   │
-│  • UI Updates (every frame)                            │   │
-│  • Animation (every frame)                             │   │
-│                                                         │   │
-│  FixedUpdate() ──────────────────────────────────────┐  │   │
-│    │                                               │  │   │
-│    ▼                                               │  │   │
-│  • Physics Calculations (50 FPS)                   │  │   │
-│  • Rigidbody Movement (50 FPS)                     │  │   │
-│  • Collision Detection (50 FPS)                    │  │   │
-│                                                    │  │   │
-│  └─────────────────────────────────────────────────┘  │   │
-│                                                       │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
+
+```mermaid
+flowchart LR
+    subgraph Update["Update() - Every Frame"]
+        U1[Input Handling]
+        U2[Game Logic]
+        U3[UI Updates]
+        U4[Animation]
+    end
+    
+    subgraph FixedUpdate["FixedUpdate() - 50 FPS"]
+        F1[Physics Calculations]
+        F2[Rigidbody Movement]
+        F3[Collision Detection]
+    end
+    
+    Update --> FixedUpdate
+    
+    style Update fill:#e1ffe1
+    style FixedUpdate fill:#ffe1e1
 ```
 
 ### **Best Practices**

@@ -189,14 +189,15 @@ void Update()
 
 #### **Example Review Comment**
 ```csharp
-// ❌ Problem: Physics in Update()
+// ❌ Problem: Physics in Update(), using deprecated rigidbody2D property
 void Update()
 {
     rigidbody2D.velocity = new Vector2(speed, 0);
 }
 
 // ✅ Review Comment:
-// "Physics movement should be in FixedUpdate() for consistent behavior"
+// "Physics movement should be in FixedUpdate() for consistent behavior. 
+// Also, cache Rigidbody2D reference and use it instead of deprecated property."
 ```
 
 ### 5. Security & Safety
@@ -480,16 +481,23 @@ void OnTriggerEnter2D(Collider2D other)
 
 ### Issue 2: Wrong Update Method
 ```csharp
-// ❌ Problem: Physics in Update()
+// ❌ Problem: Physics in Update(), using deprecated rigidbody2D property
 void Update()
 {
     rigidbody2D.velocity = new Vector2(speed, 0);
 }
 
-// ✅ Fix: Physics in FixedUpdate()
+// ✅ Fix: Physics in FixedUpdate(), cache Rigidbody2D reference
+private Rigidbody2D rb;
+
+void Awake()
+{
+    rb = GetComponent<Rigidbody2D>();
+}
+
 void FixedUpdate()
 {
-    rigidbody2D.velocity = new Vector2(speed, 0);
+    rb.velocity = new Vector2(speed, 0);
 }
 ```
 

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Quiz - Sprites & Animation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .progress-bar {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s ease;
+    }
+
+    .quiz-card {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .question-number {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .question-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .options {
+      margin-bottom: 30px;
+    }
+
+    .option {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+    }
+
+    .option:hover {
+      background: #e9ecef;
+      transform: translateX(5px);
+    }
+
+    .option.selected {
+      background: #e7e5ff;
+      border-color: #667eea;
+    }
+
+    .option label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .option input[type="radio"] {
+      margin-right: 15px;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+    }
+
+    .question-text code,
+    .option code {
+      background: #f1f5f9;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 16px;
+      color: #e11d48;
+      font-weight: 600;
+      border: 1px solid #e2e8f0;
+    }
+
+    .short-answer-container {
+      margin-bottom: 40px;
+    }
+
+    .short-answer-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+
+    .short-answer-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .short-answer-actions {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: space-between;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    .btn-secondary:hover {
+      background: #f8f9fa;
+    }
+
+    .btn:disabled,
+    .btn.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background-color: #e5e7eb;
+      color: #9ca3af;
+      border-color: #d1d5db;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn:disabled:hover,
+    .btn.disabled:hover {
+      transform: none;
+      box-shadow: none;
+      background-color: #e5e7eb;
+      color: #9ca3af;
+    }
+
+    .results-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      margin: 20px auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .score-number {
+      font-size: 42px;
+      font-weight: bold;
+    }
+
+    .score-label {
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .score-details {
+      margin: 15px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 14px;
+    }
+
+    .score-row:last-child {
+      border-bottom: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .short-answer-input.correct {
+      border-color: #10b981;
+      background: #d1fae5;
+    }
+
+    .short-answer-input.incorrect {
+      border-color: #ef4444;
+      background: #fee2e2;
+    }
+
+    .option.correct {
+      background: #d1fae5;
+      border-color: #10b981;
+    }
+
+    .option.incorrect {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+
+    .feedback-icon {
+      margin-left: auto;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .answer-feedback {
+      margin-top: 15px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .answer-feedback.show {
+      display: block;
+    }
+
+    .answer-feedback.correct {
+      background: #d1fae5;
+      color: #065f46;
+      border-left: 4px solid #10b981;
+    }
+
+    .answer-feedback.incorrect {
+      background: #fee2e2;
+      color: #991b1b;
+      border-left: 4px solid #ef4444;
+    }
+
+    .buttons {
+      margin-top: 30px;
+    }
+
+    .feedback {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    .feedback.excellent {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .feedback.good {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .feedback.average {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .feedback.needs-improvement {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .options {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-card,
+      .results-card {
+        padding: 20px;
+      }
+
+      .question-text {
+        font-size: 18px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header" role="banner">
+      <h1>Quiz - Sprites & Animation</h1>
+    </header>
+
+    <main role="main">
+      <section class="progress-bar" id="progressBar" aria-label="Quiz Progress">
+        <div class="progress-info">
+          <span id="progressText" aria-live="polite">Question 1 of 20</span>
+          <span id="answeredText" aria-live="polite">Answered: 0/20</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"
+          aria-label="Quiz completion progress">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </section>
+
+      <article class="quiz-card" id="quizCard" role="form" aria-labelledby="questionText">
+        <div class="question-header">
+          <span class="question-number" id="questionNumber" aria-label="Current question number">Question 1</span>
+        </div>
+
+        <h2 class="question-text" id="questionText" role="heading" aria-level="2"></h2>
+
+        <fieldset class="options" id="optionsContainer" aria-label="Answer options"></fieldset>
+
+        <div class="short-answer-container hidden" id="shortAnswerContainer">
+          <label for="shortAnswerInput" class="sr-only">Your answer</label>
+          <input type="text" class="short-answer-input" id="shortAnswerInput" placeholder="Type your answer here..."
+            aria-label="Short answer input field" aria-describedby="shortAnswerFeedback" />
+          <div class="answer-feedback" id="shortAnswerFeedback" role="status" aria-live="polite"></div>
+          <div class="short-answer-actions">
+            <button class="btn btn-secondary" id="skipBtn" aria-label="Skip this question">
+              Skip Question
+            </button>
+          </div>
+        </div>
+
+        <nav class="buttons" aria-label="Quiz navigation">
+          <button class="btn btn-secondary" id="prevBtn" disabled aria-label="Go to previous question">
+            ← Previous
+          </button>
+          <button class="btn btn-primary" id="nextBtn" disabled aria-label="Go to next question">Next →</button>
+        </nav>
+      </article>
+    </main>
+
+    <section class="results-card hidden" id="resultsCard" role="region" aria-labelledby="resultsTitle"
+      aria-live="polite">
+      <h2 id="resultsTitle" style="color: #667eea; margin-bottom: 12px; font-size: 24px">
+        Quiz Completed!
+      </h2>
+
+      <div class="score-circle" role="img" aria-label="Score visualization">
+        <div class="score-number" id="scoreNumber" aria-label="Your quiz score">0%</div>
+        <div class="score-label">Your Score</div>
+      </div>
+
+      <div class="score-details">
+        <div class="score-row">
+          <span><strong>Total Questions:</strong></span>
+          <span id="totalQuestions">20</span>
+        </div>
+        <div class="score-row">
+          <span><strong>Answered:</strong></span>
+          <span id="answeredCount">0</span>
+        </div>
+        <div class="score-row">
+          <span><strong>Correct:</strong></span>
+          <span id="correctCount">0</span>
+        </div>
+        <div class="score-row">
+          <span><strong>Skipped:</strong></span>
+          <span id="skippedCount">0</span>
+        </div>
+      </div>
+
+      <div class="feedback" id="feedback" role="status"></div>
+
+      <button class="btn btn-primary" style="margin-top: 20px" onclick="location.reload()"
+        aria-label="Restart the quiz">
+        Retake Quiz
+      </button>
+    </section>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        type: "multiple",
+        question: "What Texture Type should you use for 2D sprites in Unity?",
+        options: [
+          "Default",
+          "Sprite (2D and UI)",
+          "Normal map",
+          "GUI",
+        ],
+        correct: 1,
+      },
+      {
+        type: "multiple",
+        question: "What does PPU stand for in sprite settings?",
+        options: [
+          "Pixels Per Unit",
+          "Pixels Per Update",
+          "Performance Per Unit",
+          "Pixel Processing Unit",
+        ],
+        correct: 0,
+      },
+      {
+        type: "multiple",
+        question: "What Filter Mode should you use for pixel art sprites?",
+        options: [
+          "Bilinear",
+          "Trilinear",
+          "Point (no filter)",
+          "Anisotropic",
+        ],
+        correct: 2,
+      },
+      {
+        type: "multiple",
+        question: "What are the three main components of Unity's 2D Animation system?",
+        options: [
+          "Sprite, Animation, Controller",
+          "Animation Clips, Animator Component, Animator Controller",
+          "Keyframes, Timeline, States",
+          "Sprites, Frames, Clips",
+        ],
+        correct: 1,
+      },
+      {
+        type: "multiple",
+        question: "What is an Animator Controller?",
+        options: [
+          "A component that plays animations",
+          "A state machine that manages animation transitions",
+          "A script for controlling characters",
+          "A type of animation clip",
+        ],
+        correct: 1,
+      },
+      {
+        type: "multiple",
+        question: "What Animator Parameter type should you use for one-time events like jumping?",
+        options: [
+          "Bool",
+          "Int",
+          "Float",
+          "Trigger",
+        ],
+        correct: 3,
+      },
+      {
+        type: "multiple",
+        question: "How do you set an Animator parameter in code?",
+        options: [
+          "animator.SetParameter(\"IsWalking\", true)",
+          "animator.SetBool(\"IsWalking\", true)",
+          "animator.Bool(\"IsWalking\", true)",
+          "animator.Parameter(\"IsWalking\", true)",
+        ],
+        correct: 1,
+      },
+      {
+        type: "multiple",
+        question: "What does 'Has Exit Time' mean in animation transitions?",
+        options: [
+          "The transition happens immediately",
+          "Wait for current animation to finish before transitioning",
+          "The animation will exit after a set time",
+          "The transition has a time limit",
+        ],
+        correct: 1,
+      },
+      {
+        type: "multiple",
+        question: "What is the purpose of Sorting Layers in Unity 2D?",
+        options: [
+          "To organize sprites in the Project window",
+          "To control the rendering order of sprites (which appear in front/behind)",
+          "To sort animations",
+          "To organize components",
+        ],
+        correct: 1,
+      },
+      {
+        type: "multiple",
+        question: "What component is used to display 2D sprites?",
+        options: [
+          "SpriteComponent",
+          "SpriteRenderer",
+          "ImageRenderer",
+          "TextureRenderer",
+        ],
+        correct: 1,
+      },
+      {
+        type: "multiple",
+        question: "How do you flip a sprite horizontally in code?",
+        options: [
+          "spriteRenderer.flipX = true",
+          "spriteRenderer.flip = true",
+          "transform.scale.x = -1",
+          "spriteRenderer.mirrorX = true",
+        ],
+        correct: 0,
+      },
+      {
+        type: "multiple",
+        question: "What is a Sprite Sheet?",
+        options: [
+          "A single sprite image",
+          "A collection of multiple sprites in one image file",
+          "A type of animation",
+          "A Unity component",
+        ],
+        correct: 1,
+      },
+      {
+        type: "multiple",
+        question: "What tool in Unity is used to slice sprite sheets into individual sprites?",
+        options: [
+          "Sprite Editor",
+          "Animation Window",
+          "Sprite Slicer",
+          "Texture Importer",
+        ],
+        correct: 0,
+      },
+      {
+        type: "multiple",
+        question: "What property of SpriteRenderer controls transparency/opacity?",
+        options: [
+          "alpha",
+          "transparency",
+          "color.a (alpha channel)",
+          "opacity",
+        ],
+        correct: 2,
+      },
+      {
+        type: "multiple",
+        question: "What is the purpose of Animation Events?",
+        options: [
+          "To trigger animations",
+          "To call functions at specific points during animation playback",
+          "To create transitions",
+          "To set animation speed",
+        ],
+        correct: 1,
+      },
+      {
+        type: "short",
+        question: "What window in Unity is used to create and edit animation clips?",
+        answer: "Animation",
+      },
+      {
+        type: "short",
+        question: "What method is used to get the Animator component from a GameObject?",
+        answer: "GetComponent",
+      },
+      {
+        type: "short",
+        question: "What is the default value for Order in Layer?",
+        answer: "0",
+      },
+      {
+        type: "short",
+        question: "What property of Transform is used to change sprite size in 2D?",
+        answer: "scale",
+      },
+      {
+        type: "short",
+        question: "What is the name of the state machine system used in Animator Controller?",
+        answer: "State Machine",
+      },
+    ];
+
+    let currentQuestion = 0;
+    let userAnswers = new Array(quizData.length).fill(null);
+    let answerChecked = new Array(quizData.length).fill(false);
+
+    const progressText = document.getElementById("progressText");
+    const answeredText = document.getElementById("answeredText");
+    const progressFill = document.getElementById("progressFill");
+    const questionNumber = document.getElementById("questionNumber");
+    const questionText = document.getElementById("questionText");
+    const optionsContainer = document.getElementById("optionsContainer");
+    const shortAnswerContainer = document.getElementById("shortAnswerContainer");
+    const shortAnswerInput = document.getElementById("shortAnswerInput");
+    const shortAnswerFeedback = document.getElementById("shortAnswerFeedback");
+    const skipBtn = document.getElementById("skipBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const quizCard = document.getElementById("quizCard");
+    const resultsCard = document.getElementById("resultsCard");
+
+    function init() {
+      quizData.forEach(question => {
+        if (question.type === "multiple") {
+          const correctAnswer = question.options[question.correct];
+          const shuffled = [...question.options];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+          question.options = shuffled;
+          question.correct = shuffled.indexOf(correctAnswer);
+        }
+      });
+
+      showQuestion(currentQuestion);
+    }
+
+    function checkAnswer(index, selectedOption) {
+      const question = quizData[index];
+      answerChecked[index] = true;
+
+      const options = document.querySelectorAll(".option");
+      options.forEach((opt, i) => {
+        const input = opt.querySelector("input");
+        input.disabled = true;
+        opt.style.cursor = "default";
+
+        if (i === question.correct) {
+          opt.classList.add("correct");
+          opt.classList.remove("selected");
+          const icon = document.createElement("span");
+          icon.className = "feedback-icon";
+          icon.textContent = "✓";
+          opt.querySelector("label").appendChild(icon);
+        } else if (i === selectedOption) {
+          opt.classList.add("incorrect");
+          opt.classList.remove("selected");
+          const icon = document.createElement("span");
+          icon.className = "feedback-icon";
+          icon.textContent = "✗";
+          opt.querySelector("label").appendChild(icon);
+        }
+      });
+
+      nextBtn.disabled = false;
+    }
+
+    function checkShortAnswer(index, answer) {
+      const question = quizData[index];
+      answerChecked[index] = true;
+
+      const isCorrect = answer.toLowerCase().trim() === question.answer.toLowerCase().trim();
+
+      shortAnswerInput.disabled = true;
+      shortAnswerInput.classList.add(isCorrect ? "correct" : "incorrect");
+
+      shortAnswerFeedback.classList.add("show", isCorrect ? "correct" : "incorrect");
+      shortAnswerFeedback.textContent = isCorrect
+        ? `✓ Correct! The answer is "${question.answer}"`
+        : `✗ Incorrect. The correct answer is "${question.answer}"`;
+
+      nextBtn.disabled = false;
+    }
+
+    function showQuestion(index) {
+      const question = quizData[index];
+
+      questionNumber.textContent = `Question ${index + 1}`;
+      questionText.textContent = question.question || "Question text missing";
+
+      progressText.textContent = `Question ${index + 1} of ${quizData.length}`;
+      const answered = userAnswers.filter((a) => a !== null).length;
+      answeredText.textContent = `Answered: ${answered}/${quizData.length}`;
+      progressFill.style.width = `${((index + 1) / quizData.length) * 100}%`;
+
+      optionsContainer.innerHTML = "";
+      shortAnswerInput.value = "";
+      shortAnswerFeedback.classList.remove('show', 'correct', 'incorrect');
+      shortAnswerFeedback.textContent = "";
+
+      if (question.type === "multiple") {
+        optionsContainer.classList.remove("hidden");
+        shortAnswerContainer.classList.add("hidden");
+
+        question.options.forEach((option, i) => {
+          const div = document.createElement("div");
+          div.className = "option";
+
+          if (answerChecked[index]) {
+            if (i === question.correct) {
+              div.classList.add("correct");
+            } else if (userAnswers[index] === i && i !== question.correct) {
+              div.classList.add("incorrect");
+            }
+          } else if (userAnswers[index] === i) {
+            div.classList.add("selected");
+          }
+
+          div.innerHTML = `<label><input type="radio" name="answer" value="${i}" ${userAnswers[index] === i ? "checked" : ""} ${answerChecked[index] ? "disabled" : ""}><span>${option}</span>${answerChecked[index] && i === question.correct ? '<span class="feedback-icon">✓</span>' : ''}${answerChecked[index] && userAnswers[index] === i && i !== question.correct ? '<span class="feedback-icon">✗</span>' : ''}</label>`;
+
+          if (!answerChecked[index]) {
+            div.addEventListener("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              if (!answerChecked[index]) {
+                document.querySelectorAll(".option").forEach((o) => o.classList.remove("selected"));
+                div.classList.add("selected");
+                div.querySelector("input").checked = true;
+                userAnswers[index] = i;
+
+                checkAnswer(index, i);
+              }
+            });
+          }
+
+          optionsContainer.appendChild(div);
+        });
+      } else {
+        optionsContainer.classList.add("hidden");
+        shortAnswerContainer.classList.remove("hidden");
+
+        if (userAnswers[index]) {
+          shortAnswerInput.value = userAnswers[index];
+
+          if (answerChecked[index]) {
+            checkShortAnswer(index, userAnswers[index]);
+          }
+        }
+
+        shortAnswerInput.disabled = answerChecked[index];
+
+        shortAnswerInput.oninput = () => {
+          userAnswers[index] = shortAnswerInput.value.trim();
+          updateProgress();
+
+          if (userAnswers[index] && !answerChecked[index]) {
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('disabled');
+          } else if (!userAnswers[index] && !answerChecked[index]) {
+            nextBtn.disabled = true;
+            nextBtn.classList.add('disabled');
+          }
+        };
+
+        shortAnswerInput.onblur = () => {
+          if (userAnswers[index] && !answerChecked[index]) {
+            checkShortAnswer(index, userAnswers[index]);
+          }
+        };
+
+        shortAnswerInput.onkeypress = (e) => {
+          if (e.key === 'Enter' && userAnswers[index] && !answerChecked[index]) {
+            checkShortAnswer(index, userAnswers[index]);
+            shortAnswerInput.blur();
+          }
+        };
+
+        skipBtn.onclick = () => {
+          if (!answerChecked[index]) {
+            userAnswers[index] = "";
+            answerChecked[index] = true;
+            shortAnswerInput.disabled = true;
+            skipBtn.disabled = true;
+            nextBtn.disabled = false;
+            updateProgress();
+          }
+        };
+      }
+
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === quizData.length - 1 ? "Submit Quiz" : "Next →";
+
+      if (question.type === "short") {
+        nextBtn.disabled = !answerChecked[index] && (!userAnswers[index] || userAnswers[index].trim() === '');
+        if (nextBtn.disabled) {
+          nextBtn.classList.add('disabled');
+        } else {
+          nextBtn.classList.remove('disabled');
+        }
+      } else {
+        nextBtn.disabled = !answerChecked[index];
+        nextBtn.classList.remove('disabled');
+      }
+
+      skipBtn.disabled = answerChecked[index];
+    }
+
+    function updateProgress() {
+      const answered = userAnswers.filter((a) => a !== null && a !== "").length;
+      answeredText.textContent = `Answered: ${answered}/${quizData.length}`;
+
+      const progressPercentage = ((currentQuestion + 1) / quizData.length) * 100;
+      const progressTrack = document.querySelector('.progress-track');
+      if (progressTrack) {
+        progressTrack.setAttribute('aria-valuenow', Math.round(progressPercentage));
+      }
+    }
+
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (answerChecked[currentQuestion]) {
+        if (currentQuestion < quizData.length - 1) {
+          currentQuestion++;
+          showQuestion(currentQuestion);
+        } else {
+          showResults();
+        }
+      }
+    });
+
+    prevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion(currentQuestion);
+      }
+    });
+
+    function showResults() {
+      let correct = 0;
+      let answered = 0;
+
+      quizData.forEach((question, index) => {
+        const userAnswer = userAnswers[index];
+
+        if (userAnswer !== null && userAnswer !== "") {
+          answered++;
+
+          if (question.type === "multiple") {
+            if (userAnswer === question.correct) {
+              correct++;
+            }
+          } else {
+            if (userAnswer.toLowerCase().trim() === question.answer.toLowerCase().trim()) {
+              correct++;
+            }
+          }
+        }
+      });
+
+      const skipped = quizData.length - answered;
+      const percentage = answered > 0 ? (correct / answered) * 100 : 0;
+
+      document.getElementById("scoreNumber").textContent = Math.round(percentage) + "%";
+      document.getElementById("totalQuestions").textContent = quizData.length;
+      document.getElementById("answeredCount").textContent = answered;
+      document.getElementById("correctCount").textContent = correct;
+      document.getElementById("skippedCount").textContent = skipped;
+
+      const feedback = document.getElementById("feedback");
+      if (percentage >= 90) {
+        feedback.className = "feedback excellent";
+        feedback.textContent = "🌟 Excellent! You have a strong grasp of sprites and animation!";
+      } else if (percentage >= 70) {
+        feedback.className = "feedback good";
+        feedback.textContent = "👍 Good job! You understand most sprite and animation concepts well!";
+      } else if (percentage >= 50) {
+        feedback.className = "feedback average";
+        feedback.textContent = "📚 Not bad! Review the materials to improve your understanding.";
+      } else {
+        feedback.className = "feedback needs-improvement";
+        feedback.textContent = "💪 Keep studying! Practice more to master sprites and animation.";
+      }
+
+      quizCard.classList.add("hidden");
+      document.getElementById("progressBar").classList.add("hidden");
+      resultsCard.classList.remove("hidden");
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
+

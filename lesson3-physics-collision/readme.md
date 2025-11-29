@@ -42,15 +42,11 @@ Master Rigidbody2D, colliders, physics materials, layers, and callbacks. Impleme
 
 Proceed to [Lesson 4: Input & Player Controller](../lesson4-input-player-controller/) to learn about the New Input System and build a professional 2D player controller with responsive camera follow. You already know basic input and camera follow from Lesson 1, so this lesson will build on that foundation.
 
----
-
-## 🚀 **Next Steps**
-
-- **Study Examples**: Start with `example/` folder to understand concepts
-- **Practice Labs**: Complete exercises in `lab/` folder
-- **Take the Quiz**: Test your knowledge with [`quiz/quiz3.html`](quiz/quiz3.html)
-- **Explore Sample Project**: Check out `sample-projects/lesson3-physics-collision/` for complete implementation
-- **Build Your Own**: Create your own physics-based platformer
+**Next Steps:**
+- Study examples in `example/` folder
+- Complete exercises in `lab/` folder
+- Take the quiz: [`quiz/quiz3.html`](quiz/quiz3.html)
+- Explore sample project: `sample-projects/lesson3-physics-collision/`
 
 ---
 

@@ -1,4 +1,4 @@
-# Theory 02: 2D Sprites, Animation & Components
+# Theory: 2D Sprites, Animation & Components
 
 ## 🎯 Learning Objectives
 
@@ -37,10 +37,10 @@ graph TD
 
 ### Advantages of Component System
 
-✅ **Modularity**: Each component has separate responsibility
-✅ **Reusability**: Components can be reused across multiple GameObjects
-✅ **Flexibility**: Easy to add/remove features by adding/removing components
-✅ **Maintainability**: Code is easier to maintain and debug
+- **Modularity**: Each component has separate responsibility
+- **Reusability**: Components can be reused across multiple GameObjects
+- **Flexibility**: Easy to add/remove features
+- **Maintainability**: Easier to maintain and debug
 
 ### Component Lifecycle
 
@@ -368,15 +368,11 @@ transform.position = new Vector3(5f, 3f, 0f);
 
 ---
 
-## 7. 2D Character Movement Implementation (simplified)
+## 7. 2D Character Movement Implementation
 
-At this stage of the course, you only need a **very simple bridge** between:
+Bridge between input, physics (Rigidbody2D), and animation parameters.
 
-- Input (from Lesson 1)  
-- Physics (Rigidbody2D)  
-- Animation parameters (this lesson).
-
-### 7.1 Minimal movement script
+### 7.1 Movement script
 
 ```csharp
 using UnityEngine;
@@ -414,11 +410,8 @@ public class Character2D : MonoBehaviour
 }
 ```
 
-Teaching idea:
-- Start with this script so students can **see their sprite move and animate** quickly.  
-- Defer “perfect” physics or jump logic to Lesson 3 & 4.
 
-### 7.2 Animator parameters (concept only)
+### 7.2 Animator parameters
 
 Common parameters you’ll use:
 
@@ -427,10 +420,7 @@ Common parameters you’ll use:
 - `Speed` (Float) – magnitude of horizontal velocity, useful for blend trees.  
 - `JumpTrigger` (Trigger) – fired once when jumping.
 
-You don’t need a lot of code here; just show how movement feeds into parameters, then:
-
-- Configure transitions in the Animator window  
-- Point students to `lesson2-sprites-animation/example/Character2D.cs` and the sample project for more advanced control.
+Configure transitions in the Animator window. For more advanced control, see `lesson2-sprites-animation/example/Character2D.cs` and the sample project.
 
 ---
 

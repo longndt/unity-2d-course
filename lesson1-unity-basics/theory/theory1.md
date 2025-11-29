@@ -2,6 +2,7 @@
 
 ## 🎯 Learning Objectives
 
+After completing this lesson, students will be able to:
 - Set up a 2D project and navigate the Unity Editor efficiently
 - Understand GameObject/Component model and MonoBehaviour lifecycle
 - Create and use prefabs; manage scenes and scene loading
@@ -31,14 +32,13 @@ public class GameComponent : MonoBehaviour
 ```
 
 ### Unity Editor Overview
-Unity uses a **Component-Based Architecture** where GameObjects are containers for Components that define behavior.
 
 **Key Windows:**
-- **Scene View**: 3D/2D world editor (like a level designer)
-- **Game View**: What the player sees (like browser viewport)
-- **Hierarchy**: GameObject tree structure (like DOM tree)
-- **Inspector**: Component properties (like CSS properties)
-- **Project**: Asset files (like file explorer)
+- **Scene View**: 3D/2D world editor
+- **Game View**: What the player sees
+- **Hierarchy**: GameObject tree structure
+- **Inspector**: Component properties
+- **Project**: Asset files
 - **Console**: Debug messages and errors
 
 ### 2D Project Setup
@@ -211,7 +211,7 @@ if (Input.GetKeyUp(KeyCode.Space))
 public class SimpleMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    
+
     void Update()
     {
         // Read horizontal input (A/D or Left/Right arrows)
@@ -220,14 +220,14 @@ public class SimpleMovement : MonoBehaviour
             horizontal = -1f;
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             horizontal = 1f;
-        
+
         // Read vertical input (W/S or Up/Down arrows)
         float vertical = 0f;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             vertical = 1f;
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             vertical = -1f;
-        
+
         // Apply movement
         Vector3 movement = new Vector3(horizontal, vertical, 0) * moveSpeed * Time.deltaTime;
         transform.position += movement;
@@ -279,7 +279,7 @@ public class SimpleCameraFollow : MonoBehaviour
     public Transform target;           // Player to follow
     public float followSpeed = 2f;    // How fast camera follows
     public Vector3 offset = Vector3.zero;  // Offset from target
-    
+
     void LateUpdate()
     {
         if (target != null)
@@ -287,7 +287,7 @@ public class SimpleCameraFollow : MonoBehaviour
             // Calculate target position
             Vector3 targetPosition = target.position + offset;
             targetPosition.z = transform.position.z; // Keep camera's Z position
-            
+
             // Smoothly move camera towards target
             transform.position = Vector3.Lerp(
                 transform.position,
@@ -307,18 +307,18 @@ public class CameraFollowWithBounds : MonoBehaviour
     public float followSpeed = 2f;
     public Vector2 minBounds = new Vector2(-10, -5);
     public Vector2 maxBounds = new Vector2(10, 5);
-    
+
     void LateUpdate()
     {
         if (target != null)
         {
             Vector3 targetPos = target.position;
-            
+
             // Clamp camera position within bounds
             targetPos.x = Mathf.Clamp(targetPos.x, minBounds.x, maxBounds.x);
             targetPos.y = Mathf.Clamp(targetPos.y, minBounds.y, maxBounds.y);
             targetPos.z = transform.position.z;
-            
+
             // Smooth follow
             transform.position = Vector3.Lerp(
                 transform.position,
@@ -419,21 +419,3 @@ void OnDrawGizmos()
 Proceed to [Lesson 2: Sprites & Animation](../lesson2-sprites-animation/) to learn about visual game elements and animation systems.
 
 ---
-
-## 💡 Key Takeaways
-
-### **From Web to Game Development**
-- **State Management**: From Redux/Context to Game State
-- **Event Handling**: From DOM events to Input System (basic in Lesson 1, advanced in Lesson 4)
-- **UI Systems**: From HTML/CSS to Unity UI (covered in Lesson 5)
-- **Data Persistence**: From localStorage/AsyncStorage to Save System (covered in Lesson 5)
-
-### **Game Development Fundamentals**
-- **Real-time**: Games run continuously, not event-driven
-- **Physics**: Objects interact with realistic physics
-- **Performance**: 60+ FPS is critical for good gameplay
-- **Player Agency**: Players have direct control over the game world
-
----
-
-**💡 Tip**: Focus on understanding the component system and lifecycle first. These are the foundations of Unity development!

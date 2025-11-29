@@ -12,6 +12,9 @@
 ### **Code Examples and Resources**
 - `common-scripts-library.md` - Common Unity scripts for 2D game development
 - `free-assets-resources.md` - Free asset sources and integration guide
+- `advanced-physics-mechanics.md` - Advanced physics mechanics (variable jump, coyote time, moving platforms)
+- `advanced-ui-systems.md` - Advanced UI systems (menu panels, HUD, inventory)
+- `advanced-game-systems.md` - Advanced game systems (scene management, audio, save/load, build)
 
 ### **Advanced Programming Patterns**
 - `design-patterns.md` - Common design patterns for game development

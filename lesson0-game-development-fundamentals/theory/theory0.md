@@ -2,6 +2,7 @@
 
 ## 🎯 Learning Objectives
 
+After completing this lesson, students will be able to:
 - Understand what game development is and the main steps involved
 - Learn about popular game engines and their differences
 - Explore different game genres and their characteristics
@@ -779,15 +780,6 @@ flowchart TD
 
 ---
 
-## 🚀 Next Steps
+## ✅ What's Next
 
-Now that you understand the fundamentals:
-
-1. **Navigate Unity Editor**: Get comfortable with windows
-2. **Create First Game**: Simple bouncing ball (see example/)
-3. **Understand Game Loop**: See how Update() works
-4. **Move to Lesson 1**: Learn Unity technical basics
-
----
-
-**Ready to start?** Check out the `example/` folder for a simple bouncing ball game!
+Proceed to [Lesson 1: Unity Basics](../lesson1-unity-basics/) to learn about Unity Editor, GameObject/Component system, and basic game development workflow.

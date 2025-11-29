@@ -1,4 +1,4 @@
-# Lesson 0 Examples - Simple Game Components
+# Lesson 0 Example: Game Development Fundamentals
 
 This folder contains working examples to help you understand game development fundamentals.
 

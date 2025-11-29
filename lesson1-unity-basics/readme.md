@@ -60,15 +60,11 @@ This lesson introduces Unity's technical fundamentals: Editor, scenes, prefabs, 
 
 Proceed to [Lesson 2: Sprites & Animation](../lesson2-sprites-animation/) to learn about visual game elements and animation systems.
 
----
-
-## 🚀 **Next Steps**
-
-- **Study Examples**: Start with `example/` folder to understand concepts
-- **Practice Labs**: Complete exercises in `lab/` folder
-- **Take the Quiz**: Test your knowledge with [`quiz/quiz1.html`](quiz/quiz1.html)
-- **Explore Sample Project**: Check out `sample-projects/lesson1-unity-basics/` for complete implementation
-- **Build Your Own**: Create your own scene management system
+**Next Steps:**
+- Study examples in `example/` folder
+- Complete exercises in `lab/` folder
+- Take the quiz: [`quiz/quiz1.html`](quiz/quiz1.html)
+- Explore sample project: `sample-projects/lesson1-unity-basics/`
 
 ---
 

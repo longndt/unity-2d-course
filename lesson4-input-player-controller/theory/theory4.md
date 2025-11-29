@@ -1,4 +1,4 @@
-# Theory: Input System & 2D Player Controller
+# Theory: Input System & Player Controller
 
 ## 🎯 Learning Objectives
 
@@ -14,36 +14,25 @@ After completing this lesson, students will be able to:
 
 ## 1. Unity Input System Overview
 
-> **Note**: In Lesson 1, you learned basic input using Unity's Legacy Input Manager (Input.GetKey, Input.GetAxis). This lesson covers the **New Input System** which provides advanced features like device-agnostic input, rebinding, and event-driven architecture. Both systems are valid, but the New Input System is recommended for modern games.
+This lesson covers Unity's **New Input System** with device-agnostic input, rebinding, and event-driven architecture.
 
 ### 1.1 Old vs New Input System
 
-#### **Legacy Input Manager** (Input.GetKey) - Covered in Lesson 1:
+#### **Legacy Input Manager** (from Lesson 1):
 ```csharp
-// Basic input from Lesson 1 - good for simple games
 if (Input.GetKeyDown(KeyCode.Space))
 {
     Jump();
 }
-
 float horizontal = Input.GetAxis("Horizontal");
 ```
 
-**What You Learned in Lesson 1:**
-- ✅ **Simple and straightforward**: Easy to understand and implement
-- ✅ **Quick prototyping**: Fast to set up for basic movement
-- ✅ **Good for beginners**: No complex setup required
+**Limitations:**
+- Hard-coded inputs, limited device support
+- Polling-based system, no rebinding
 
-**Limitations (Why New Input System is Better):**
-- ❌ **Hard-coded inputs**: Difficult to customize controls
-- ❌ **Limited device support**: Mainly keyboard/mouse
-- ❌ **No input events**: Polling-based system
-- ❌ **Performance issues**: Not optimized for modern games
-- ❌ **No rebinding**: Players can't customize controls
-
-#### **New Input System** (Input Actions):
+#### **New Input System**:
 ```csharp
-// New way - recommended
 public InputAction jumpAction;
 public InputAction moveAction;
 
@@ -55,10 +44,8 @@ void OnEnable()
 ```
 
 **Advantages:**
-- ✅ **Event-driven**: Efficient performance
-- ✅ **Device agnostic**: Automatic controller/keyboard support
-- ✅ **Customizable**: Players can rebind controls
-- ✅ **Modern features**: Touch, gyroscope, multiple devices
+- Event-driven, device agnostic
+- Customizable controls, modern features (touch, gyroscope)
 
 ### 1.2 Input System Installation
 
@@ -184,13 +171,11 @@ public class PlayerController : MonoBehaviour
 
 ### 3.2 Input Event Methods
 
-#### **Auto-Generated Methods** (when using Send Messages):
+#### **Auto-Generated Methods**:
 ```csharp
-// Unity automatically calls these methods based on action names
 public void OnMove(InputValue value)
 {
     Vector2 moveInput = value.Get<Vector2>();
-    // Handle movement
 }
 
 public void OnJump(InputValue value)
@@ -203,12 +188,11 @@ public void OnJump(InputValue value)
 
 public void OnAttack()
 {
-    // Called when attack action is performed
     Attack();
 }
 ```
 
-#### **Manual Event Subscription** (Recommended):
+#### **Manual Event Subscription**:
 ```csharp
 void OnEnable()
 {
@@ -223,7 +207,6 @@ void OnEnable()
 void OnMovePerformed(InputAction.CallbackContext context)
 {
     Vector2 input = context.ReadValue<Vector2>();
-    // Handle continuous movement
 }
 
 void OnJumpPerformed(InputAction.CallbackContext context)
@@ -233,7 +216,6 @@ void OnJumpPerformed(InputAction.CallbackContext context)
 
 void OnJumpCanceled(InputAction.CallbackContext context)
 {
-    // Handle jump release (for variable jump height)
     ReleaseJump();
 }
 ```
@@ -242,16 +224,16 @@ void OnJumpCanceled(InputAction.CallbackContext context)
 
 ## 4. 2D Character Controller Implementation
 
-The goal of this section is **not** to read a huge class, but to understand the **core flow** of a 2D character that uses the New Input System:
+Core flow of a 2D character controller:
 
-1. Read input (Move / Jump)  
-2. Store it in variables (`moveInput`, `jumpPressed`)  
-3. In `FixedUpdate`, apply forces/velocity changes to the `Rigidbody2D`  
-4. Use a few simple state variables for better feel (ground check, coyote time, jump buffer).
+1. Read input (Move / Jump)
+2. Store in variables (`moveInput`, `jumpPressed`)
+3. In `FixedUpdate`, apply forces/velocity to `Rigidbody2D`
+4. Use state variables (ground check, coyote time, jump buffer)
 
-### 4.1 Minimal controller skeleton
+### 4.1 Controller skeleton
 
-Here is a minimal controller that is easy to teach and extend:
+Controller example:
 
 ```csharp
 using UnityEngine;
@@ -279,7 +261,6 @@ public class SimplePlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Called from PlayerInput (Send Messages)
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -287,67 +268,55 @@ public class SimplePlayerController : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        // only care about press down
         jumpPressed = value.isPressed;
     }
 
     void Update()
     {
-        // Simple ground check
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position, groundCheckRadius, groundLayers);
     }
 
     void FixedUpdate()
     {
-        // 1. Horizontal movement
         rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
 
-        // 2. Jump
         if (jumpPressed && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            jumpPressed = false; // reset
+            jumpPressed = false;
         }
     }
 }
 ```
 
-**How to use this when teaching:**
-- Start with this version so students can get a moving/jumping character in 10–15 minutes.  
-- Then **add features step by step**: coyote time, jump buffer, animation, camera, etc. (see lab and examples).
 
-### 4.2 Coyote time & jump buffer (concept only)
+### 4.2 Coyote time & jump buffer
 
-Instead of full code, this section focuses on the **idea**:
+- **Coyote time**: Allow jumping shortly after leaving the ground (store `lastGroundedTime`)
+- **Jump buffer**: Store jump input when pressed early; execute if player lands within the buffer window
 
-- **Coyote time**: store `lastGroundedTime`. Allow jumping if the player just left the ground within X seconds.  
-- **Jump buffer**: when the player presses jump slightly too early, store a “pending jump” in `jumpBufferCounter`; if the player lands within that window, perform the jump.
-
-Minimal pseudocode:
+Pseudocode:
 
 ```csharp
 // Update
-    if (isGrounded)
-        lastGroundedTime = Time.time;
+if (isGrounded)
+    lastGroundedTime = Time.time;
 
 if (jumpPressed)
     jumpBufferCounter = jumpBufferTime;
 
 // FixedUpdate
-bool canJumpByCoyote =
-    Time.time - lastGroundedTime <= coyoteTime;
+bool canJumpByCoyote = Time.time - lastGroundedTime <= coyoteTime;
 
 if (jumpBufferCounter > 0 && canJumpByCoyote)
 {
     DoJump();
-            jumpBufferCounter = 0;
+    jumpBufferCounter = 0;
 }
 ```
 
-The full, production-style implementation (with more state, animation hooks, events, etc.) lives in:
-- `lesson4-input-player-controller/example/Player2DController.cs`  
-- the `lesson4-input-player-controller` sample project in `sample-projects/`.
+Full implementation: `lesson4-input-player-controller/example/Player2DController.cs` and sample project.
 
 ---
 
@@ -372,7 +341,6 @@ public class PlayerAnimations : MonoBehaviour
     private Animator animator;
     private Player2DController controller;
 
-    // Animation parameter IDs
     private int speedParamID;
     private int groundedParamID;
     private int velocityYParamID;
@@ -382,7 +350,6 @@ public class PlayerAnimations : MonoBehaviour
         animator = GetComponent<Animator>();
         controller = GetComponent<Player2DController>();
 
-        // Cache parameter IDs for performance
         speedParamID = Animator.StringToHash("Speed");
         groundedParamID = Animator.StringToHash("IsGrounded");
         velocityYParamID = Animator.StringToHash("VelocityY");
@@ -395,14 +362,9 @@ public class PlayerAnimations : MonoBehaviour
 
     void UpdateAnimationParameters()
     {
-        // Update movement speed
         float speed = Mathf.Abs(controller.rb.velocity.x);
         animator.SetFloat(speedParamID, speed);
-
-        // Update grounded state
         animator.SetBool(groundedParamID, controller.isGrounded);
-
-        // Update vertical velocity
         animator.SetFloat(velocityYParamID, controller.rb.velocity.y);
     }
 }
@@ -464,62 +426,59 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 ---
 
-## 6. Camera System with Cinemachine (simplified)
+## 6. Camera System with Cinemachine
 
-Goal: get a **smooth follow camera** with minimal code.
+Goal: get a **smooth follow camera**.
 
 ### 6.1 Install & create a Virtual Camera
 
-1. Open **Window → Package Manager → Unity Registry**  
-2. Install the **“Cinemachine”** package  
-3. In the Hierarchy: `GameObject → Cinemachine → 2D Camera`  
+1. Open **Window → Package Manager → Unity Registry**
+2. Install the **“Cinemachine”** package
+3. In the Hierarchy: `GameObject → Cinemachine → 2D Camera`
 4. Select the new `CM vcam` → set **Follow = Player**.
 
-With these 4 steps, most 2D games already have a good-enough follow camera for teaching.
+With these 4 steps, most 2D games already have a good-enough follow camera.
 
 ### 6.2 Tuning camera feel
 
 In the `CinemachineVirtualCamera`:
 
-- **Lens → Orthographic Size**: change how much of the world you see (e.g. 5–7).  
+- **Lens → Orthographic Size**: Controls view size (e.g. 5–7)
 - **Body → 2D Transposer**:
-  - `Follow Offset`: move the camera slightly above the player (0, 2, -10).  
-  - `Damping`: increase a bit (1,1,0) so the camera eases into movement.  
-  - `Dead Zone`: small dead zone so the player can move a bit without the camera constantly shifting.
+  - `Follow Offset`: Camera offset from player (0, 2, -10)
+  - `Damping`: Smooth camera movement (1,1,0)
+  - `Dead Zone`: Area where player can move without camera shifting
 
-Teaching tip: let students **drag these sliders** and see how the camera feel changes – much more memorable than reading code.
 
-### 6.3 Advanced ideas (for later)
+### 6.3 Advanced ideas
 
-Techniques like:
-- Camera zones (different framing per area)  
-- Look-ahead (camera looks ahead in movement direction)  
-- More advanced camera shake  
+Advanced techniques:
+- Camera zones (different framing per area)
+- Look-ahead (camera looks ahead in movement direction)
+- Advanced camera shake
 
-already have detailed examples in:
-- `extras/common-scripts-library/Camera2DFollow.cs`, `CameraShake.cs`  
+Detailed examples:
+- `extras/common-scripts-library/Camera2DFollow.cs`, `CameraShake.cs`
 - sample projects: `lesson4-input-player-controller`, `lesson5-ui-complete-game`.
 
-In this theory chapter, you only need to **explain the ideas and show a quick demo**; students can read the full code in those examples later.
+Full implementations are available in:
 
 ---
 
-## 7. Input Feedback and Game Feel (concepts, light code)
+## 7. Input Feedback and Game Feel
 
-**Game feel** is why the same “jump” button feels tight in one game and floaty in another.  
-For this lesson, focus on 3 types of feedback:
+**Game feel** makes controls feel responsive. Three types of feedback:
 
-- **Visual**: trails when running fast, dust when landing, flashes on attack.  
-- **Audio**: footstep, jump, land, attack sounds.  
-- **Screen effects**: light camera shake on strong impacts/landings.
+- **Visual**: trails, dust, flashes
+- **Audio**: footstep, jump, land, attack sounds
+- **Screen effects**: camera shake on impacts
 
-Instead of full systems here, think in terms of simple **hooks**:
+Hook examples:
+- `DoJump()` → play jump sound + spawn effect
+- `OnLanded()` → play dust + land sound + camera shake
+- `OnAttack()` → show hit effect + attack sound
 
-- When `DoJump()` is called → play jump sound + spawn jump effect.  
-- When landing (`OnLanded`) → play dust + land sound + small camera shake.  
-- When attacking (`OnAttack`) → show hit effect + attack sound.
-
-Minimal hook example:
+Hook example:
 
 ```csharp
 public class SimpleFeedback : MonoBehaviour
@@ -537,31 +496,23 @@ public class SimpleFeedback : MonoBehaviour
 }
 ```
 
-Full trail systems, complex hit effects, and advanced camera shake can live in:
-- the Lesson 4 sample project  
-- Lesson 5 (UI & polish)  
-so this theory chapter stays light and easy to follow.
+Advanced implementations: Lesson 4 sample project and Lesson 5.
 
 ---
 
-## 8. Performance, Debugging & Advanced Patterns (high-level only)
+## 8. Performance, Debugging & Advanced Patterns
 
-The topics below are **more important for larger projects** or polish phases, not for the very first Input System lesson:
+The topics below are important for larger projects and polish phases:
 
-- **Optimization**: cache `InputAction` references, cache components (`Rigidbody2D`, `Animator`, …), avoid `GetComponent` in `Update`.  
-- **Debug**: use `OnDrawGizmos` to visualize ground checks and velocity; simple UI text to log inputs if needed.  
-- **Unit testing**: you can test movement/jump logic with PlayMode tests, but this is advanced.  
-- **Advanced input**: buffered inputs, multi-button combos, event pooling – better kept for an advanced session or homework for strong students.
+- **Optimization**: cache `InputAction` references, cache components (`Rigidbody2D`, `Animator`, …), avoid `GetComponent` in `Update`.
+- **Debug**: use `OnDrawGizmos` to visualize ground checks and velocity; simple UI text to log inputs if needed.
+- **Unit testing**: Test movement/jump logic with PlayMode tests
+- **Advanced input**: buffered inputs, multi-button combos, event pooling.
 
-Instead of full code here, you can:
-
-- Briefly **mention the concepts** in class  
-- Point students to:
-  - `extras/performance-optimization.md`  
-  - `extras/common-scripts-library.md`  
+For detailed implementations, see:
+  - `extras/performance-optimization.md`
+  - `extras/common-scripts-library.md`
   - the Lesson 4 and Lesson 5 sample projects
-
-for self-study after class.
 
 ---
 

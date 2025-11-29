@@ -60,17 +60,14 @@ Lesson 5 is perfect for **group collaboration**! Working in teams (2-5 members) 
 
 ## ✅ What's Next
 
-You've completed the core Unity course. Continue with advanced topics in `extras/`.
+You've completed the core Unity 2D course! Continue with advanced topics in `extras/` to further enhance your game development skills.
 
----
-
-## 🚀 **Next Steps**
-
-- **Study Examples**: Start with `example/` folder to understand concepts
-- **Practice Labs**: Complete exercises in `lab/` folder
-- **Take the Quiz**: Test your knowledge with [`quiz/quiz5.html`](quiz/quiz5.html)
-- **Explore Sample Project**: Check out `sample-projects/lesson5-ui-complete-game/` for complete implementation
-- **Build Your Own**: Create your own complete 2D game
+**Next Steps:**
+- Study examples in `example/` folder
+- Complete exercises in `lab/` folder
+- Take the quiz: [`quiz/quiz5.html`](quiz/quiz5.html)
+- Explore sample project: `sample-projects/lesson5-ui-complete-game/`
+- Explore advanced topics: `extras/`
 
 ---
 

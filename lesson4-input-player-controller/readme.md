@@ -43,15 +43,11 @@ Master the Input System with advanced patterns, professional camera systems, and
 
 Proceed to [Lesson 5: UI & Complete Game](../lesson5-ui-complete-game/) to learn about complete game development including UI, menus, and build pipeline.
 
----
-
-## 🚀 **Next Steps**
-
-- **Study Examples**: Start with `example/` folder to understand concepts
-- **Practice Labs**: Complete exercises in `lab/` folder
-- **Take the Quiz**: Test your knowledge with [`quiz/quiz4.html`](quiz/quiz4.html)
-- **Explore Sample Project**: Check out `sample-projects/lesson4-input-player-controller/` for complete implementation
-- **Build Your Own**: Create your own responsive player controller
+**Next Steps:**
+- Study examples in `example/` folder
+- Complete exercises in `lab/` folder
+- Take the quiz: [`quiz/quiz4.html`](quiz/quiz4.html)
+- Explore sample project: `sample-projects/lesson4-input-player-controller/`
 
 ---
 

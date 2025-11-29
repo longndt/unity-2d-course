@@ -431,98 +431,9 @@ public class PlayerJump : MonoBehaviour
 
 ## 7. Advanced Physics Concepts
 
-### 7.1 Variable Jump Height
+Advanced physics mechanics including variable jump height, coyote time, jump buffering, moving platforms, and one-way platforms are covered in:
 
-```csharp
-public class VariableJump : MonoBehaviour
-{
-    public float jumpForce = 400f;
-    public float fallMultiplier = 2.5f;
-    public float lowJumpMultiplier = 2f;
-
-    private Rigidbody2D rb;
-
-    void Update()
-    {
-        // Apply variable gravity for better jump feel
-        if (rb.velocity.y < 0)
-        {
-            // Falling: increase gravity
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-        }
-        else if (rb.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
-        {
-            // Released jump early: cut jump short
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
-        }
-    }
-}
-```
-
-### 7.2 Coyote Time Implementation
-
-```csharp
-public class CoyoteTime : MonoBehaviour
-{
-    public float coyoteTimeThreshold = 0.1f;
-
-    private bool isGrounded;
-    private float lastGroundedTime;
-
-    void Update()
-    {
-        // Update grounded status
-        bool wasGrounded = isGrounded;
-        CheckGrounded();
-
-        // Start coyote time when leaving ground
-        if (wasGrounded && !isGrounded)
-        {
-            lastGroundedTime = Time.time;
-        }
-
-        // Allow jump during coyote time
-        bool canJump = isGrounded || (Time.time - lastGroundedTime < coyoteTimeThreshold);
-
-        if (Input.GetKeyDown(KeyCode.Space) && canJump)
-        {
-            Jump();
-        }
-    }
-}
-```
-
-### 7.3 Jump Buffering
-
-```csharp
-public class JumpBuffer : MonoBehaviour
-{
-    public float jumpBufferTime = 0.1f;
-
-    private float jumpBufferCounter;
-    private bool isGrounded;
-
-    void Update()
-    {
-        // Handle jump input buffering
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            jumpBufferCounter = jumpBufferTime;
-        }
-        else
-        {
-            jumpBufferCounter -= Time.deltaTime;
-        }
-
-        // Execute jump if conditions met
-        if (jumpBufferCounter > 0f && isGrounded)
-        {
-            Jump();
-            jumpBufferCounter = 0f; // Reset buffer
-        }
-    }
-}
-```
+📖 **[Advanced Physics Mechanics](../../extras/advanced-physics-mechanics.md)**
 
 ---
 
@@ -568,116 +479,11 @@ Configure which layers can collide:
 
 ## 9. Common Physics Patterns
 
-### 9.1 One-Way Platforms
+### 9.1 One-Way Platforms and Moving Platforms
 
-```csharp
-public class OneWayPlatform : MonoBehaviour
-{
-    private PlatformEffector2D platformEffector;
+Advanced platform mechanics including one-way platforms, moving platforms, and physics-based projectiles are covered in:
 
-    void Start()
-    {
-        platformEffector = GetComponent<PlatformEffector2D>();
-    }
-
-    void Update()
-    {
-        // Allow dropping through platform
-        if (Input.GetKey(KeyCode.S))
-        {
-            platformEffector.rotationalOffset = 180f;
-        }
-        else
-        {
-            platformEffector.rotationalOffset = 0f;
-        }
-    }
-}
-```
-
-### 9.2 Moving Platforms
-
-```csharp
-public class MovingPlatform : MonoBehaviour
-{
-    public Transform[] waypoints;
-    public float moveSpeed = 2f;
-
-    private int currentWaypoint = 0;
-    private Rigidbody2D rb;
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        rb.isKinematic = true; // Kinematic for scripted movement
-    }
-
-    void FixedUpdate()
-    {
-        MovePlatform();
-    }
-
-    void MovePlatform()
-    {
-        Vector2 targetPosition = waypoints[currentWaypoint].position;
-        Vector2 newPosition = Vector2.MoveTowards(rb.position, targetPosition, moveSpeed * Time.fixedDeltaTime);
-        rb.MovePosition(newPosition);
-
-        // Switch waypoints when reached
-        if (Vector2.Distance(rb.position, targetPosition) < 0.1f)
-        {
-            currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
-        }
-    }
-
-    // Carry player with platform
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            other.transform.SetParent(transform);
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            other.transform.SetParent(null);
-        }
-    }
-}
-```
-
-### 9.3 Physics-Based Projectiles
-
-```csharp
-public class Projectile : MonoBehaviour
-{
-    public float lifetime = 5f;
-    public float damage = 10f;
-
-    void Start()
-    {
-        // Auto-destroy after lifetime
-        Destroy(gameObject, lifetime);
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Handle projectile hit
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            // Deal damage
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            enemy?.TakeDamage(damage);
-        }
-
-        // Destroy projectile on hit
-        Destroy(gameObject);
-    }
-}
-```
+📖 **[Advanced Physics Mechanics](../../extras/advanced-physics-mechanics.md)**
 
 ---
 
@@ -734,18 +540,16 @@ void OnCollisionEnter2D(Collision2D collision)
 5. ✅ **Collision vs Triggers**: Physical response vs detection events
 6. ✅ **Forces and Movement**: AddForce, velocity control, jump mechanics
 
-### Advanced Techniques:
+### Technical Skills Acquired:
 - 🎮 **Variable Jump Height**: Enhanced jump feel with gravity modulation
 - ⏰ **Coyote Time**: Grace period for jump input after leaving ground
 - 🔄 **Jump Buffering**: Input buffering for responsive controls
 - 🏗️ **Moving Platforms**: Kinematic movement with player interaction
-
-### Performance Optimization:
 - ⚡ **Physics Settings**: Optimal configuration for 2D games
 - 🎯 **Collision Matrix**: Efficient layer-based collision filtering
 - 🔧 **Best Practices**: Collider optimization and appropriate physics usage
 
-### Preparing for Next Lesson:
+### Preparation for Next Lesson:
 - 🎮 **Advanced Input System**: Unity's New Input System (you already know basic input from Lesson 1)
 - 🎬 **Advanced Movement**: Character controllers with state management
 - 📹 **Professional Camera Systems**: Cinemachine integration (you already know basic camera follow from Lesson 1)

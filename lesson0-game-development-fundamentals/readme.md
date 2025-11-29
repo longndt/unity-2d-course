@@ -89,15 +89,11 @@ This lesson covers the fundamentals of game development:
 
 Proceed to [Lesson 1: Unity Basics](../lesson1-unity-basics/) to dive deeper into Unity's technical aspects.
 
----
-
-## 🚀 **Next Steps**
-
-- **Study Examples**: Start with `example/` folder to understand concepts
-- **Practice Labs**: Complete exercises in `lab/` folder
-- **Take the Quiz**: Test your knowledge with [`quiz/quiz0.html`](quiz/quiz0.html)
-- **Explore Sample Project**: Check out `sample-projects/lesson0-bouncing-ball/` for complete implementation
-- **Build Your Own**: Create your own simple game
+**Next Steps:**
+- Study examples in `example/` folder
+- Complete exercises in `lab/` folder
+- Take the quiz: [`quiz/quiz0.html`](quiz/quiz0.html)
+- Explore sample project: `sample-projects/lesson0-bouncing-ball/`
 
 ---
 
